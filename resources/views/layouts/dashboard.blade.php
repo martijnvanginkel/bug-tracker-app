@@ -30,5 +30,6 @@
         </main>
     </div>
 
+    <script type="module" src="{{ asset('js/page_manager.js') }}"></script>
 </body>
 </html>

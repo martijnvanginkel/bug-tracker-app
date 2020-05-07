@@ -8,10 +8,10 @@
     <p class="menu-label">Projects</p>
     <ul class="menu-list">
         <li>
-        <a href="{{ route('create_project') }}">New Project</a>
+        <a href="#">New Project</a>
             <ul>
                 @foreach ($projects as $project)
-                    <li><a href="{{ route('show_project', $project->id) }}">{{ $project->name }}</a></li>
+                    <nav-item name="{{ $project->name }}" project_id="{{ $project->id }}"></nav-item>
                 @endforeach
             </ul>
             </li>
