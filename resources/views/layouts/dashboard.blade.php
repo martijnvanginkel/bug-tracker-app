@@ -22,15 +22,14 @@
 <body>
 
     <div class="dashboard_container">
-
-        
         <nav>
             @include('./../partials/dashboard_nav')
         </nav>
-        
         <main>
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

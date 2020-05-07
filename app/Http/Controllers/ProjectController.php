@@ -31,6 +31,7 @@ class ProjectController extends Controller
     {
         $project = new Project;
         $project->name = $request->name;
+        $project->private = $request->private;
 
         if ($project->save()) {
             return new ProjectResource($project);
