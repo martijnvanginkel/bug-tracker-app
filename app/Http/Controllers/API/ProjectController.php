@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Project;
+use App\Http\Resources\Project as ProjectResource;
+use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
@@ -13,17 +17,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $projects = Project::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return ProjectResource::collection($projects);
     }
 
     /**
@@ -34,7 +30,13 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $project = new Project;
+        $project->name = $request->name;
+        $project->private = $request->private;
+
+        if ($project->save()) {
+            return new ProjectResource($project);
+        }
     }
 
     /**
@@ -45,18 +47,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $project = Project::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return new ProjectResource($project);
     }
 
     /**
@@ -68,7 +61,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $project = Project::findOrFail($id);
+        $project->name = $request->name;
+
+        if ($project->save()) {
+            return new ProjectResource($project);
+        }
     }
 
     /**
@@ -79,6 +77,10 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $project = Project::findOrFail($id);
+
+        if ($project->delete()) {
+            return new ProjectResource($project);
+        }
     }
 }

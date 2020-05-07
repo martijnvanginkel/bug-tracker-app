@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Project::class, function (Faker $faker) {
     return [
-        'name' => $faker->text(40)
+        'name' => $faker->text(15),
+        'private' => $faker->boolean()
     ];
 });

@@ -19,4 +19,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+/* Pages */
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/create_project', 'PageController@create_project')->name('create_project');
+Route::get('/show_project/{id}', 'PageController@show_project')->name('show_project');
+
+/* Project */
+Route::resource('projects', 'ProjectController');
