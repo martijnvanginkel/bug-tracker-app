@@ -1,3 +1,5 @@
+import { clearContent } from './../page_manager.js';
+
 const template = document.createElement('template');
 template.innerHTML = `
     <style>
@@ -15,7 +17,7 @@ template.innerHTML = `
     <li></li>
 `;
 
-class NavItem extends HTMLElement {
+export class NavItem extends HTMLElement {
     constructor() {
         super();
 
@@ -38,16 +40,14 @@ class NavItem extends HTMLElement {
     }
 
     async renderProject() {
-        console.log('render page');
-        console.log(this.project_id);
+        clearContent();
 
         const parent = document.querySelector('main');
-
         const project = await this.getProject(this.project_id);
+        const project_page = document.createElement('project-page');
+        project_page.setAttribute('name', project.name);
 
-        console.log(project);
-
-
+        parent.append(project_page);
     }
 
     connectedCallback() {
@@ -57,5 +57,3 @@ class NavItem extends HTMLElement {
 }
 
 window.customElements.define('nav-item', NavItem);
-
-export { NavItem }

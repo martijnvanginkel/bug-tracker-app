@@ -25,9 +25,14 @@
         <nav>
             @include('./../partials/dashboard_nav')
         </nav>
-        <main>
-            @yield('content')
-        </main>
+        <div class="content_container">
+            <header>
+                <h1 id="header_title">Title</h1>
+            </header>
+            <main>
+                @yield('content')
+            </main>
+        </div>
     </div>
 
     <script type="module" src="{{ asset('js/page_manager.js') }}"></script>

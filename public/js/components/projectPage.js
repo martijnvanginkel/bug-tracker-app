@@ -1,7 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
     <h1></h1>
-
     <p>Lorem ipsum</p>
 `;
 
@@ -11,7 +10,10 @@ class ProjectPage extends HTMLElement {
 
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.shadowRoot.querySelector('h1').innerText =
+    }
+
+    connectedCallback() {
+        this.shadowRoot.querySelector('h1').innerText = this.getAttribute('name');
     }
 }
 
