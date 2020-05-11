@@ -12,11 +12,17 @@ export const clearContent = () => {
 
 const loadPage = (...elements) => {
     clearContent();
-    elements.forEach(element => content.append(document.createElement(element)));
+    elements.forEach(element => {
+        const new_el = document.createElement(element.name);
+        element.attributes.forEach(attribute => {
+            new_el.setAttribute(attribute.key, attribute.value);
+        })
+        content.append(new_el);
+    });
 }
 
 const formatElement = (name, data) => {
-    const pairs = [];
+    let pairs = [];
     const attributes = [];
 
     if (data != undefined) {
@@ -38,9 +44,14 @@ const create_project_link = document.getElementById('create_project_link');
 create_project_link.addEventListener('click', (e) => {
     // loadPage('create-project-page');
 
-    const formattedElement = formatElement('create-project-page');
+    const formattedElement = formatElement('create-project-page', {
+        title: 'hoi',
+        delayed: true
+    });
 
-    console.log(formattedElement);
+    loadPage(formattedElement);
+
+    // console.log(formattedElement);
 
 
 });
