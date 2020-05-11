@@ -10,17 +10,39 @@ export const clearContent = () => {
     }
 }
 
-const manage_users_link = document.getElementById('manage_users_link');
+const loadPage = (...elements) => {
+    clearContent();
+    elements.forEach(element => content.append(document.createElement(element)));
+}
 
-manage_users_link.addEventListener('click', (e) => {
+const formatElement = (name, data) => {
+    const pairs = [];
+    const attributes = [];
 
-});
+    if (data != undefined) {
+        pairs = Object.entries(data).map(([key, value]) => ({key, value}));
+    }
+    pairs.forEach(pair => {
+        const obj = {};
+        obj.key = pair.key;
+        obj.value = pair.value;
+        attributes.push(obj);
+    });
+    return {
+        'name': name,
+        'attributes': attributes
+    }
+}
 
 const create_project_link = document.getElementById('create_project_link');
 create_project_link.addEventListener('click', (e) => {
-    const el = document.createElement('create-project-page');
-    clearContent();
-    content.append(el);
+    // loadPage('create-project-page');
+
+    const formattedElement = formatElement('create-project-page');
+
+    console.log(formattedElement);
+
+
 });
 
 
