@@ -1,8 +1,8 @@
-import { ContactPage } from './components/ContactPage.js';
+import { ProjectForm } from './components/ProjectForm.js';
 
 const routes = [
     { key: '#/', value: null },
-    { key: '#/project/new', value: ContactPage },
+    { key: '#/project/new', value: ProjectForm },
     { key: '#/extra', value: null }
 ]
 
@@ -15,7 +15,7 @@ const clearContent = () => {
 }
 
 const loadNewContent = (route) => {
-    if (route === null) return;
+    if (route === null || route.value === null) return;
     clearContent();
     content.innerHTML = route.value.render();
     route.value.addEvents();
