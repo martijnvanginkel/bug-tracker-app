@@ -7,7 +7,7 @@ const project_schema = new mongoose.Schema({
     description: {
         type: String
     },
-    private: {
+    non_public: {
         type: Boolean
     }
 });

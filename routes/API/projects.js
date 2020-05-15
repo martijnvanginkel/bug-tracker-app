@@ -1,25 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const Project = './../../models/project.js'
+const Project = require('./../../models/project');
 
 router.post('/new', async (req, res) => {
+    const project = new Project({
+        name: req.body.name,
+        description: req.body.description,
+        non_public: req.body.non_public
+    });
+    await project.save().catch((error) => res.json({ message: error.message }));
+    res.json(project);
+});
 
-    console.log(req.body)
-    // console.log('here');
+router.get('/', async (req, res) => {
+    const projects = await Project.find().catch((error) => res.json({ message: error.message }));
+    res.json(projects);
+});
 
-    // res.json(null);
-
-    // try {
-    //     const game = await Game.findOne({key: req.params.key});
-    //     const word = new Word({
-    //         value: req.params.word
-    //     });
-    //     game.words.push(word);
-    //     await game.save();
-    //     res.json(word);
-    // } catch (error) {
-    //     res.status(500).json({ message: error.message })
-    // } 
+router.get('/:id', async (req, res) => {
+    const project = await Project.findById(req.params.id).catch((error) => res.json({ message: error.message }));
+    res.json(project);
 });
 
 module.exports = router;

@@ -6,3 +6,10 @@ body {
 aside {
     padding: 5px;
 }
+
+main {
+    flex-grow: 1;
+    max-width: 480px;
+    margin-left: 5%;
+    padding-top: 10px;
+}

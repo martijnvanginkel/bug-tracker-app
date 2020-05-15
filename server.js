@@ -15,9 +15,7 @@ mongoose.connect('mongodb://localhost/js-bugtracker-app', { useNewUrlParser: tru
 
 
 /* Routes */
-
 const projectAPIRouter = require('./routes/api/projects');
-
 app.use('/api/projects', projectAPIRouter);
 
 app.get('/', async (req, res) => {
