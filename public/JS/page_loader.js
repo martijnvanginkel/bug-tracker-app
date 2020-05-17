@@ -21,7 +21,7 @@ const loadNewContent = async (route, url) => {
     if (route === null || route.value === null) return;
     clearContent();
     content.innerHTML = await route.value.render(url.id);
-    route.value.addEvents(url.id);
+    await route.value.addEvents(url.id);
 }
 
 const returnNewRoute = (url) => {

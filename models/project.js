@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Task = require('./task');
 
 const project_schema = new mongoose.Schema({
     name: {
@@ -9,7 +10,8 @@ const project_schema = new mongoose.Schema({
     },
     non_public: {
         type: Boolean
-    }
+    },
+    tasks: [Task.schema]
 });
 
 module.exports = mongoose.model('Project', project_schema);
