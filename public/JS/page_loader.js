@@ -60,7 +60,7 @@ const loadSideBar = async () => {
     const body = document.querySelector('body');
     const side_bar = document.createElement('nav');
     side_bar.innerHTML = await SideBar.render();
-    SideBar.addEvents();
+    await SideBar.addEvents();
     body.insertBefore(side_bar, content);
 }
 

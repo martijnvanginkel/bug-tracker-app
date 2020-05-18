@@ -27,5 +27,13 @@ main {
 
 .task_box {
     background-color: white;
+    transition: 0.1s ease;
     border-radius: 4px;
+    margin: 4px;
+}
+
+.task_box:hover {
+    cursor: pointer;
+    transition: 0.1s ease;
+    background-color: lightgray;
 }

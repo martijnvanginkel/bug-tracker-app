@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 mongoose.connect('mongodb://localhost/js-bugtracker-app', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.set('useFindAndModify', false);
 
 
 /* Routes */

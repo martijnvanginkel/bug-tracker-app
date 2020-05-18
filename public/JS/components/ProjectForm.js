@@ -67,7 +67,6 @@ export const ProjectForm = {
         const clear_btn = document.querySelector('.clear_btn');
         clear_btn.addEventListener('click', (e) => {
             e.preventDefault();
-
             clearFields();
         })
     }
