@@ -11,22 +11,21 @@ const routes = [
 
 const content = document.getElementById('main_content');
 
-const clearContent = () => {
+const clearPage = () => {
     while (content.firstChild) {
         content.removeChild(content.firstChild);
     }
 }
 
-const loadNewContent = async (route, url) => {
+const loadNewPage = async (route, url) => {
     if (route === null || route.value === null) return;
-    clearContent();
+    clearPage();
     content.innerHTML = await route.value.render(url.id);
     await route.value.addEvents(url.id);
 }
 
 const returnNewRoute = (url) => {
     let new_route = null;
-
     routes.forEach(route => {
         if (route.key === url.path) {
             new_route = route;
@@ -37,7 +36,6 @@ const returnNewRoute = (url) => {
 
 const getParsedURL = () => {
     const path = location.hash.split('/');
-
     const resource = path[1];
     const add_on = path[2];
     const id = path[3];
@@ -53,7 +51,7 @@ const hashChanged = () => {
     const url = getParsedURL();
     const route = returnNewRoute(url);
     if (route === null) return;
-    loadNewContent(route, url);
+    loadNewPage(route, url);
 }
 
 const loadSideBar = async () => {

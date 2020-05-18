@@ -26,6 +26,7 @@ main {
 }
 
 .task_box {
+    display: flex;
     background-color: white;
     transition: 0.1s ease;
     border-radius: 4px;

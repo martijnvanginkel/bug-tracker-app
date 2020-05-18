@@ -54,13 +54,4 @@ router.get('/:id', async (req, res) => {
     });
 });
 
-router.get('/:id/tasks', async (req, res) => {
-    const project = await Project.findById(req.params.id).catch((error) => res.json({ message: error.message }));
-
-    sortTasksByPriority(project.tasks)
-
-    res.json()
-
-});
-
 module.exports = router;

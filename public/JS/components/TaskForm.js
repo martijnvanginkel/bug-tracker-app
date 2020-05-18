@@ -4,14 +4,13 @@ export const TaskForm = {
     render : async () => {
         return `
             <form action="" id="task_form">
-                <input class="input" id="task_description" type="text" placeholder="Name" name="description" required>
+                <input class="input" type="text" placeholder="Name" name="description" required>
                 <button type="submit" class="button is-primary submit_btn">Submit</button>
             </form>
         `;
     },
     addEvents : (project_id) => {
         const form = document.getElementById('task_form');
-
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             fetch(`http://localhost:5000/api/projects/${project_id}/task/new`, {

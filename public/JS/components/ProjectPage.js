@@ -16,12 +16,16 @@ const getProjectByID = (id) => {
 
 export const addTaskToList = async (list, task) => {
     const temp = document.createElement('div');
+    temp.className = 'task_box';
     list.append(temp);
-    temp.outerHTML = await Task.render(task);
+    const task_object = Task;
+    const render_info = await task_object.render(task);
+    temp.innerHTML = render_info;
+    await task_object.addEvents(temp, task);
 }
 
 export const ProjectPage = {
-    render : async (id) => {
+    render : async () => {
         return `
             <h1 class="project_title"></h1>
             <div class="task_container">
@@ -37,7 +41,6 @@ export const ProjectPage = {
         const to_do_list = document.querySelector('.to_do_list');
         const doing_list = document.querySelector('.doing_list');
         const done_list = document.querySelector('.done_list');
-        console.log(project);
 
         project.todo_tasks.forEach((task) => addTaskToList(to_do_list, task));
         project.doing_tasks.forEach((task) => addTaskToList(doing_list, task));
