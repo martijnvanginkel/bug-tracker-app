@@ -38,3 +38,7 @@ main {
     transition: 0.1s ease;
     background-color: lightgray;
 }
+
+.dragging {
+    opacity: 0.5;
+}
