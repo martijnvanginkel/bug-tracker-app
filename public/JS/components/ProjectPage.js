@@ -21,7 +21,33 @@ export const addTaskToList = async (list, task) => {
     element.innerHTML = await Task.render(task);
     await Task.addEvents(element);
     list.append(element);
-    console.log(element);
+}
+
+const findElementDropPosition = (container, y) => {
+    const task_boxes = Array.from(container.querySelectorAll('.task_box:not(.dragging_task)'));    
+    return task_boxes.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        }
+        else { 
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
+}
+
+const makeTaskListInteractive = (e, list) => {
+    e.preventDefault();
+    const after_element = findElementDropPosition(list, e.clientY);
+    const draggable = document.querySelector('.dragging_task');
+
+    if (after_element == null) {
+        list.appendChild(draggable);
+    }
+    else {
+        list.insertBefore(draggable, after_element);
+    }
 }
 
 export const ProjectPage = {
@@ -41,47 +67,16 @@ export const ProjectPage = {
         const to_do_list = document.querySelector('.to_do_list');
         const doing_list = document.querySelector('.doing_list');
         const done_list = document.querySelector('.done_list');
-
+        
         project.todo_tasks.forEach((task) => addTaskToList(to_do_list, task));
         project.doing_tasks.forEach((task) => addTaskToList(doing_list, task));
         project.done_tasks.forEach((task) => addTaskToList(done_list, task));
 
-        // const draggables = document.querySelectorAll('.task_box');
-        const containers = document.querySelectorAll('.task_list');
+        to_do_list.addEventListener('dragover', (e) => makeTaskListInteractive(e, to_do_list));
+        doing_list.addEventListener('dragover', (e) => makeTaskListInteractive(e, doing_list));
+        done_list.addEventListener('dragover', (e) => makeTaskListInteractive(e, done_list));
 
-        containers.forEach((container) => {
-            container.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                const afterElement = getDragAfterElement(container, e.clientY);
-                const draggable = document.querySelector('.dragging');
-                if (afterElement == null) {
-                    container.appendChild(draggable);
-                } else {
-                    container.insertBefore(draggable, afterElement);
-                }
 
-            })
-        })
-
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.task_box:not(.dragging)')];
-
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child }
-                }
-                else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element
-        }
-
-        // draggables.forEach((draggable) => {
-        //     draggable.addEventListener()
-        // })
 
         /* Add task form */
         // const element = document.createElement('div');

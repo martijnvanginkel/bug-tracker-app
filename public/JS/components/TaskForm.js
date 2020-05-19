@@ -23,7 +23,8 @@ export const TaskForm = {
                 }),
             }).then(response => response.json()).then(data => {
                 e.target.description.value = '';
-                addTaskToList(document.querySelector('.to_do_list'), data)
+                const list = document.querySelector('.to_do_list');
+                addTaskToList(list, data)
             }).catch((error) => console.error('Error:', error));
         });
     }

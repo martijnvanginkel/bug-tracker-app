@@ -39,6 +39,6 @@ main {
     background-color: lightgray;
 }
 
-.dragging {
+.dragging_task {
     opacity: 0.5;
 }
