@@ -28,7 +28,7 @@ const findElementDropPosition = (container, y) => {
     }, { offset: Number.NEGATIVE_INFINITY }).element
 }
 
-const listMap = new Map();
+export const listMap = new Map();
 
 export const addTaskToList = async (task, project_id) => {
     const element = document.createElement('div');
@@ -36,11 +36,11 @@ export const addTaskToList = async (task, project_id) => {
     element.setAttribute('draggable', true);
     element.innerHTML = await Task.render(task);
     await Task.addEvents(element, task, project_id);
+
     listMap.get(task.state).append(element);
 }
 
 const initializeLists = () => {
-
     listMap.set('TODO', document.querySelector('.to_do_list'));
     listMap.set('DOING', document.querySelector('.doing_list'));
     listMap.set('DONE', document.querySelector('.done_list'));

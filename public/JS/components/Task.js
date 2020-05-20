@@ -1,20 +1,22 @@
+import { listMap } from "./ProjectPage.js";
 
 
-const task_states = [
-    { class: 'to_do_list', state: 'TODO' },
-    { class: 'doing_list', state: 'DOING' },
-    { class: 'done_list', state: 'DONE' }
-];
+// const task_states = [
+//     { class: 'to_do_list', state: 'TODO' },
+//     { class: 'doing_list', state: 'DOING' },
+//     { class: 'done_list', state: 'DONE' }
+// ];
 
-const findNewTaskState = (parent) => {
-    let new_state = null;
-    task_states.forEach((task_state) => {
-        if (parent.classList.contains(task_state.class)) {
-            new_state = task_state.state;
-        }   
-    });
-    return new_state;
-}
+
+// const findNewTaskState = (parent) => {
+//     let new_state = null;
+//     task_states.forEach((task_state) => {
+//         if (parent.classList.contains(task_state.class)) {
+//             new_state = task_state.state;
+//         }   
+//     });
+//     return new_state;
+// }
 
 const updateTask = (project_id, task_id, new_state, new_position) => {
     fetch(`http://localhost:5000/api/projects/${project_id}/task/${task_id}`, {
@@ -57,19 +59,20 @@ export const Task = {
 
             for (let i = 0; i < children.length; i++) {
                 if (children[i] === e.target) {
-                    // console.log('found myself');
+                    console.log('found myself');
                     // console.log(i);
-                    const new_state = findNewTaskState(parent);
-                    // console.log(`new state ${new_state}`);
-                    updateTask(project_id, task_data._id, new_state, i);
+
+                    listMap.forEach((key, value) => {
+                        console.log(key);
+                        if (key === parent) {
+                            console.log(value) // value is the state
+                        }
+                    })
+
                     return;
                 }           
             }
 
-            // console.log(children)
-
-            // console.log(e.target.parentElement);
-            // console.log(task_data)
         });
         
         const edit_task = element.querySelector('.edit_task');

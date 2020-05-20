@@ -1,7 +1,6 @@
 export const addProjectsToMenu = (projects) => {
     const list = document.getElementById('project_list');
     if (list === undefined || list === null) return;
-
     projects.forEach((project) => {
         const element = document.createElement('li');
         element.innerHTML = `
