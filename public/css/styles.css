@@ -33,11 +33,11 @@ main {
     margin: 4px;
 }
 
-.task_box:hover {
+/* .task_box:hover {
     cursor: pointer;
     transition: 0.1s ease;
     background-color: lightgray;
-}
+} */
 
 .dragging_task {
     opacity: 0.5;
