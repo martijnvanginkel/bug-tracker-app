@@ -14,15 +14,6 @@ const getProjectByID = (id) => {
     return project;
 }
 
-export const addTaskToList = async (list, task_data, project_id) => {
-    const element = document.createElement('div');
-    element.className = 'task_box';
-    element.setAttribute('draggable', true);
-    element.innerHTML = await Task.render(task_data);
-    await Task.addEvents(element, task_data, project_id);
-    list.append(element);
-}
-
 const findElementDropPosition = (container, y) => {
     const task_boxes = Array.from(container.querySelectorAll('.task_box:not(.dragging_task)'));    
     return task_boxes.reduce((closest, child) => {
@@ -37,17 +28,36 @@ const findElementDropPosition = (container, y) => {
     }, { offset: Number.NEGATIVE_INFINITY }).element
 }
 
-const makeTaskListInteractive = (e, list) => {
-    e.preventDefault();
-    const after_element = findElementDropPosition(list, e.clientY);
-    const draggable = document.querySelector('.dragging_task');
+const listMap = new Map();
 
-    if (after_element == null) {
-        list.appendChild(draggable);
-    }
-    else {
-        list.insertBefore(draggable, after_element);
-    }
+export const addTaskToList = async (task, project_id) => {
+    const element = document.createElement('div');
+    element.className = 'task_box';
+    element.setAttribute('draggable', true);
+    element.innerHTML = await Task.render(task);
+    await Task.addEvents(element, task, project_id);
+    listMap.get(task.state).append(element);
+}
+
+const initializeLists = () => {
+
+    listMap.set('TODO', document.querySelector('.to_do_list'));
+    listMap.set('DOING', document.querySelector('.doing_list'));
+    listMap.set('DONE', document.querySelector('.done_list'));
+
+    listMap.forEach((key, value) => { 
+       key.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const after_element = findElementDropPosition(key, e.clientY);
+            const draggable = document.querySelector('.dragging_task');   
+            if (after_element == null) {
+                key.appendChild(draggable);
+            }
+            else {
+                key.insertBefore(draggable, after_element);
+            }
+        });
+    });
 }
 
 export const ProjectPage = {
@@ -64,28 +74,13 @@ export const ProjectPage = {
     addEvents : async (id) => {
 
         const project = await getProjectByID(id);
-
-        console.log(project);
-
-        return ;
-        const to_do_list = document.querySelector('.to_do_list');
-        const doing_list = document.querySelector('.doing_list');
-        const done_list = document.querySelector('.done_list');
-        
-        project.todo_tasks.forEach((task) => addTaskToList(to_do_list, task, id));
-        project.doing_tasks.forEach((task) => addTaskToList(doing_list, task, id));
-        project.done_tasks.forEach((task) => addTaskToList(done_list, task, id));
-
-        to_do_list.addEventListener('dragover', (e) => makeTaskListInteractive(e, to_do_list));
-        doing_list.addEventListener('dragover', (e) => makeTaskListInteractive(e, doing_list));
-        done_list.addEventListener('dragover', (e) => makeTaskListInteractive(e, done_list));
+        initializeLists();
+        project.tasks.forEach((task) => addTaskToList(task, id));
 
         /* Add task form */
         // const element = document.createElement('div');
         // to_do_list.append(element);
         // element.outerHTML = await TaskForm.render();
         // await TaskForm.addEvents(id);
-
-
     }
 }

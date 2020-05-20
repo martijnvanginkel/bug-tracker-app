@@ -74,7 +74,7 @@ router.get('/:id', async (req, res) => {
         { $group: { _id: '$_id', name: { $first: '$name' }, 'tasks': {$push: '$tasks'}} },
     ]).catch((error) => res.json({ message: error.message }));
 
-    res.json(project);
+    res.json(project[0]);
 
     // const project = await Project.findById(req.params.id).catch((error) => res.json({ message: error.message }));
     // const tasks = sortTasksByPriority(project.tasks);

@@ -46,7 +46,7 @@ export const Task = {
     },
     addEvents : (element, task_data, project_id) => {
 
-        console.log(task_data);
+        // console.log(task_data);
 
         element.addEventListener('dragstart', () => element.classList.add('dragging_task'));
         element.addEventListener('dragend', (e) => {
@@ -57,10 +57,10 @@ export const Task = {
 
             for (let i = 0; i < children.length; i++) {
                 if (children[i] === e.target) {
-                    console.log('found myself');
-                    console.log(i);
+                    // console.log('found myself');
+                    // console.log(i);
                     const new_state = findNewTaskState(parent);
-                    console.log(`new state ${new_state}`);
+                    // console.log(`new state ${new_state}`);
                     updateTask(project_id, task_data._id, new_state, i);
                     return;
                 }           

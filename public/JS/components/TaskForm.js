@@ -1,4 +1,4 @@
-import { addTaskToList } from './ProjectPage.js';
+// import { addTaskToList } from './ProjectPage.js';
 
 export const TaskForm = {
     render : async () => {
@@ -22,9 +22,9 @@ export const TaskForm = {
                     'description': e.target.description.value
                 }),
             }).then(response => response.json()).then(data => {
-                e.target.description.value = '';
-                const list = document.querySelector('.to_do_list');
-                addTaskToList(list, data)
+                // e.target.description.value = '';
+                // const list = document.querySelector('.to_do_list');
+                // addTaskToList(list, data)
             }).catch((error) => console.error('Error:', error));
         });
     }
