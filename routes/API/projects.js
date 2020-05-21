@@ -36,16 +36,49 @@ router.put('/:id/task/new', async (req, res) => {
 
 // Update a task
 router.put('/:project_id/task/:task_id', async (req, res) => {
-    // const project = await Project.aggregate([{ "_id": req.params.project_id }, { "tasks": { $match : { state: "DOING" } } } ]);
-    const project = await Project.aggregate(
 
-        { name: 'first' }
-    
-    );
-    
-    // console.log('here')
+    console.log(req.body.priority)
 
+    const project = await Project.aggregate([
+
+    
+        { $match: { _id: mongoose.Types.ObjectId(req.params.project_id) }},
+        { $unwind: '$tasks'},
+        { $facet: {
+            'state_update': [
+                { $match: { 'tasks._id': mongoose.Types.ObjectId(req.params.task_id)} }
+            ],
+            'priority_updates': [
+                { $match: { 'tasks.priority': {$gt: 6}} }
+            ]
+        } },
+        //  $facet: {
+        //     [
+        //         { $group }
+        //     ]
+
+        // } 
+
+        // { $group: { _id:  mongoose.Types.ObjectId(req.params.task_id)}   }
+        
+       
+        // { $match: {'tasks._id': mongoose.Types.ObjectId(req.params.task_id)}},
+        // { $group: { _id: '$tasks._id',  'tasks': [] } }
+    ]);
+
+    // { $group: { _id: '$_id', name: { $first: '$name' }, 'tasks': { $push: '$tasks'}} },
+
+    console.log(req.params.task_id)
+
+    // { 'tasks.priority': {$gt: 6}}
     console.log(project)
+
+    // vind de task met de task_id die
+    
+
+
+
+    // console.log(project)
     // const task = {
     //     description: req.body.description,
     //     state: TaskState.DOING,
@@ -61,30 +94,17 @@ router.get('/', async (req, res) => {
     res.json(projects);
 });
 
-// const sortTasksByPriority = (tasks) => tasks.sort((a, b) => a.priority - b.priority);
-
-// const filterTasksByState = (state) => (task) => task.state === state;
-
 router.get('/:id', async (req, res) => {
 
     const project = await Project.aggregate([
         { $match: { _id: mongoose.Types.ObjectId(req.params.id) }},
         { $unwind: '$tasks'},
         { $sort: { 'tasks.priority': 1 } },
-        { $group: { _id: '$_id', name: { $first: '$name' }, 'tasks': {$push: '$tasks'}} },
+        { $group: { _id: '$_id', name: { $first: '$name' }, 'tasks': { $push: '$tasks'}} },
     ]).catch((error) => res.json({ message: error.message }));
 
+    /* Return the first item cause aggregate always returns array */
     res.json(project[0]);
-
-    // const project = await Project.findById(req.params.id).catch((error) => res.json({ message: error.message }));
-    // const tasks = sortTasksByPriority(project.tasks);
-    // res.json({
-    //     name: project.name,
-    //     description: project.description,
-    //     todo_tasks: tasks.filter(filterTasksByState(TaskState.TODO)),
-    //     doing_tasks: tasks.filter(filterTasksByState(TaskState.DOING)),
-    //     done_tasks: tasks.filter(filterTasksByState(TaskState.DONE))
-    // });
 });
 
 module.exports = router;

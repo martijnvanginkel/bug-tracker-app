@@ -1,24 +1,6 @@
 import { listMap } from "./ProjectPage.js";
 
-
-// const task_states = [
-//     { class: 'to_do_list', state: 'TODO' },
-//     { class: 'doing_list', state: 'DOING' },
-//     { class: 'done_list', state: 'DONE' }
-// ];
-
-
-// const findNewTaskState = (parent) => {
-//     let new_state = null;
-//     task_states.forEach((task_state) => {
-//         if (parent.classList.contains(task_state.class)) {
-//             new_state = task_state.state;
-//         }   
-//     });
-//     return new_state;
-// }
-
-const updateTask = (project_id, task_id, new_state, new_position) => {
+const updateTask = (project_id, task_id, new_state, new_priority) => {
     fetch(`http://localhost:5000/api/projects/${project_id}/task/${task_id}`, {
         method: 'PUT',
         headers: {
@@ -26,7 +8,7 @@ const updateTask = (project_id, task_id, new_state, new_position) => {
         },
         body: JSON.stringify({
             'state': new_state,
-            'position': new_position
+            'priority': new_priority
         }),
     }).then(response => response.json()).then(data => {
         console.log('response');
@@ -48,8 +30,6 @@ export const Task = {
     },
     addEvents : (element, task_data, project_id) => {
 
-        // console.log(task_data);
-
         element.addEventListener('dragstart', () => element.classList.add('dragging_task'));
         element.addEventListener('dragend', (e) => {
             element.classList.remove('dragging_task');
@@ -66,6 +46,10 @@ export const Task = {
                         console.log(key);
                         if (key === parent) {
                             console.log(value) // value is the state
+                            console.log(i) // position
+                            console.log(task_data)
+                            updateTask(project_id, task_data._id, value, i);
+                            // task_id, new_state, new_position
                         }
                     })
 
