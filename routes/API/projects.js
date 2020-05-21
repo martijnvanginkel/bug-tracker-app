@@ -41,44 +41,36 @@ router.put('/:project_id/task/:task_id', async (req, res) => {
 
     const project = await Project.aggregate([
 
-    
         { $match: { _id: mongoose.Types.ObjectId(req.params.project_id) }},
         { $unwind: '$tasks'},
         { $facet: {
             'state_update': [
-                { $match: { 'tasks._id': mongoose.Types.ObjectId(req.params.task_id)} }
+                { $match: { 'tasks._id': mongoose.Types.ObjectId(req.params.task_id)} },
+                { $project: { _id: 0, tasks: 1 } }
             ],
             'priority_updates': [
-                { $match: { 'tasks.priority': {$gt: 6}} }
-            ]
-        } },
-        //  $facet: {
-        //     [
-        //         { $group }
-        //     ]
+                { $match: { 'tasks.priority': { $gt: 6 } } },
+                { $project: { _id: 0, 'priority': '$tasks.priority' } },
+            ] 
+        } }
 
-        // } 
-
-        // { $group: { _id:  mongoose.Types.ObjectId(req.params.task_id)}   }
-        
-       
-        // { $match: {'tasks._id': mongoose.Types.ObjectId(req.params.task_id)}},
-        // { $group: { _id: '$tasks._id',  'tasks': [] } }
     ]);
 
-    // { $group: { _id: '$_id', name: { $first: '$name' }, 'tasks': { $push: '$tasks'}} },
+    // project[0].priority_updates.forEach((update) => {
+    //     console.log(update);
+    //     update.priority += 1;
+    // });
 
-    console.log(req.params.task_id)
-
-    // { 'tasks.priority': {$gt: 6}}
-    console.log(project)
-
-    // vind de task met de task_id die
+    const new_project = project[0];
     
 
 
+    // const new_project 
 
-    // console.log(project)
+
+    console.log(new_project)
+
+    await new_project.save();
     // const task = {
     //     description: req.body.description,
     //     state: TaskState.DOING,
@@ -86,7 +78,7 @@ router.put('/:project_id/task/:task_id', async (req, res) => {
     // }
     // project.tasks.push(task);
     // await project.save();
-    res.json(project);
+    res.json(new_project);
 });
 
 router.get('/', async (req, res) => {
