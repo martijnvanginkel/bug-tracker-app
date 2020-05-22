@@ -37,48 +37,22 @@ router.put('/:id/task/new', async (req, res) => {
 // Update a task
 router.put('/:project_id/task/:task_id', async (req, res) => {
 
-    console.log(req.body.priority)
 
-    const project = await Project.aggregate([
+    const project = await Project.updateOne(
+        {_id: req.params.project_id},
+        {
+            $set: {'tasks.$[elementA].priority': req.body.priority, 'tasks.$[elementA].state': req.body.state},
+            $inc: {'tasks.$[elementB].priority': 1}
+        },
+        {
+            arrayFilters: [
+                {'elementA._id': req.params.task_id},
+                {'elementB.priority': {$gte: req.body.priority}, 'elementB.state': req.body.state}
+            ]
+        },
+    );
 
-        { $match: { _id: mongoose.Types.ObjectId(req.params.project_id) }},
-        { $unwind: '$tasks'},
-        { $facet: {
-            'state_update': [
-                { $match: { 'tasks._id': mongoose.Types.ObjectId(req.params.task_id)} },
-                { $project: { _id: 0, tasks: 1 } }
-            ],
-            'priority_updates': [
-                { $match: { 'tasks.priority': { $gt: 6 } } },
-                { $project: { _id: 0, 'priority': '$tasks.priority' } },
-            ] 
-        } }
-
-    ]);
-
-    // project[0].priority_updates.forEach((update) => {
-    //     console.log(update);
-    //     update.priority += 1;
-    // });
-
-    const new_project = project[0];
-    
-
-
-    // const new_project 
-
-
-    console.log(new_project)
-
-    await new_project.save();
-    // const task = {
-    //     description: req.body.description,
-    //     state: TaskState.DOING,
-    //     priority: project.tasks.length
-    // }
-    // project.tasks.push(task);
-    // await project.save();
-    res.json(new_project);
+    res.json(project);
 });
 
 router.get('/', async (req, res) => {
