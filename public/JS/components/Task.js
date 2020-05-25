@@ -1,14 +1,16 @@
 import { listMap } from "./ProjectPage.js";
 
-const updateTask = (project_id, task_id, new_state, new_priority) => {
-    fetch(`http://localhost:5000/api/projects/${project_id}/task/${task_id}`, {
+const moveTask = (project_id, task_id, old_state, new_state) => {
+    fetch(`http://localhost:5000/api/projects/${project_id}/move_task/${task_id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            'state': new_state,
-            'priority': new_priority
+            'old_state': old_state,
+            'new_state': new_state
+            // 'state': new_state,
+            // 'priority': new_priority
         }),
     }).then(response => response.json()).then(data => {
         console.log('response');
@@ -21,6 +23,7 @@ export const Task = {
         return `
             <p>${task.description}</p>
             <span style="background-color:red">${task.priority}</span>
+            <span style="background-color:green">${task.state}</span>
             <form action="" class="edit_task">
                 <button type="submit">EDIT</button>
             </form>
@@ -39,7 +42,23 @@ export const Task = {
                 if (children[i] === e.target) {
                     listMap.forEach((key, value) => {
                         if (key === parent) {
-                            updateTask(project_id, task_data._id, value, i);
+
+                            // project id
+                            // task id
+                            // old task state and position
+                            // new task state and position
+
+                            const old_state = {
+                                state: task_data.state,
+                                priority: task_data.priority
+                            }
+
+                            const new_state = {
+                                state: value,
+                                priority: i
+                            }
+
+                            moveTask(project_id, task_data._id, old_state, new_state);
                             return;
                         }
                     });

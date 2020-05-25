@@ -34,25 +34,30 @@ router.put('/:id/task/new', async (req, res) => {
     res.json(task);
 });
 
-// Update a task
-router.put('/:project_id/task/:task_id', async (req, res) => {
-
+// Update a moved task
+router.put('/:project_id/move_task/:task_id', async (req, res) => {
 
     const project = await Project.updateOne(
-        {_id: req.params.project_id},
-        {
-            $set: {'tasks.$[elementA].priority': req.body.priority, 'tasks.$[elementA].state': req.body.state},
-            $inc: {'tasks.$[elementB].priority': 1}
-        },
-        {
-            arrayFilters: [
-                {'elementA._id': req.params.task_id},
-                {'elementB.priority': {$gte: req.body.priority}, 'elementB.state': req.body.state}
-            ]
-        },
-    );
+        
+        
 
-    res.json(project);
+            {_id: req.params.project_id},
+            {
+                // $set: {'tasks.$[elementA].priority': req.body.new_state.priority},
+                $inc: {'tasks.$[elementB].priority': 1, 'tasks.$[elementC].priority': -1},
+                
+            },
+            {
+                arrayFilters: [
+                    // {'elementA._id': req.params.task_id},
+                    {'elementB.priority': {$gt: 4}, 'elementB.state': req.body.old_state.state},
+                    {'elementC.priority': {$lt: 4}},
+                ]
+            }
+        
+    )
+
+    
 });
 
 router.get('/', async (req, res) => {
