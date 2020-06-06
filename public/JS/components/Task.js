@@ -1,7 +1,7 @@
 import { listMap } from "./ProjectPage.js";
 
 const moveTask = (project_id, task_id, old_state, new_state) => {
-    fetch(`http://localhost:5000/api/projects/${project_id}/move_task/${task_id}`, {
+    fetch(`http://localhost:5000/api/projects/${project_id}/shuffle_task/${task_id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -9,8 +9,6 @@ const moveTask = (project_id, task_id, old_state, new_state) => {
         body: JSON.stringify({
             'old_state': old_state,
             'new_state': new_state
-            // 'state': new_state,
-            // 'priority': new_priority
         }),
     }).then(response => response.json()).then(data => {
         console.log('response');
@@ -42,11 +40,6 @@ export const Task = {
                 if (children[i] === e.target) {
                     listMap.forEach((key, value) => {
                         if (key === parent) {
-
-                            // project id
-                            // task id
-                            // old task state and position
-                            // new task state and position
 
                             const old_state = {
                                 state: task_data.state,

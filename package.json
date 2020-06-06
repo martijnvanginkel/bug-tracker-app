@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "migrate": "node ./db/migrations/migrate.js",
+    "seed": "node ./db/seeds/seed.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,7 @@
   "dependencies": {
     "ejs": "^3.1.2",
     "express": "^4.17.1",
-    "mongoose": "^5.9.14"
+    "mongoose": "^5.9.14",
+    "pg": "^8.2.1"
   }
 }

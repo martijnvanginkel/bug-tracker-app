@@ -1,19 +1,24 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
 const server = http.createServer(app);
-
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost/js-bugtracker-app', { useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.set('useFindAndModify', false);
-
+// const pool = new pg.Pool({
+//     user: 'postgres',
+//     password: 'password',
+//     host: 'localhost',
+//     port: 5432,
+//     database: 'bugtracker',
+//     max: 5,
+//     connectionTimeoutMillis: 0,
+//     idleTimeoutMillis: 0
+// });
 
 /* Routes */
 const projectAPIRouter = require('./routes/api/projects');
@@ -26,3 +31,5 @@ app.get('/', async (req, res) => {
 const PORT = 5000;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// module.exports = { pool }

@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const Project = require('./../../models/project');
+const connection = require('./../../db/connection');
 
 const TaskState = {
     TODO: 'TODO',
@@ -34,54 +34,19 @@ router.put('/:id/task/new', async (req, res) => {
     res.json(task);
 });
 
-// Update a moved task
-router.put('/:project_id/move_task/:task_id', async (req, res) => {
-
-    const project = await Project.updateOne(  
-        {_id: req.params.project_id},
-        {
-            $set: {'tasks.$[elementA].priority': req.body.new_state.priority, 'tasks.$[elementA].state': req.body.new_state.state},      
-        },
-        {
-            arrayFilters: [
-                {'elementA._id': req.params.task_id},
-            ]
-        }
-    );
-
-    await Project.updateOne(  
-        {_id: req.params.project_id},
-        {
-            $inc: {'tasks.$[elementA].priority': 1, 'tasks.$[elementB].priority': -1},      
-        },
-        {
-            arrayFilters: [
-                {'elementA.state': req.body.new_state.state, 'elementA.priority': {gt: req.body.new_state.priority}},
-                {'elementB.state': req.body.old_state.state, 'elementB.priority': {gt: req.body.old_state.priority}},
-                
-            ]
-        }
-    );
-
-    res.json(project);
-});
 
 router.get('/', async (req, res) => {
-    const projects = await Project.find().catch((error) => res.json({ message: error.message }));
-    res.json(projects);
-});
+    try {
+        const projects = await connection.pool.query(`SELECT * FROM projects`);
+        res.json(projects.rows);
+    }
+    catch (error) {
+        console.log(`${error}`);
+        res.status(200).json({ message: error.message });
+    }
 
-router.get('/:id', async (req, res) => {
-
-    const project = await Project.aggregate([
-        { $match: { _id: mongoose.Types.ObjectId(req.params.id) }},
-        { $unwind: '$tasks'},
-        { $sort: { 'tasks.priority': 1 } },
-        { $group: { _id: '$_id', name: { $first: '$name' }, 'tasks': { $push: '$tasks'}} },
-    ]).catch((error) => res.json({ message: error.message }));
-
-    /* Return the first item cause aggregate always returns array */
-    res.json(project[0]);
+    // const projects = await Project.find().catch((error) => res.json({ message: error.message }));
+    // res.json(projects);
 });
 
 module.exports = router;

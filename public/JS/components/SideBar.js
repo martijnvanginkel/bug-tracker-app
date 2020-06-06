@@ -42,6 +42,7 @@ export const SideBar = {
             }
         }).then(response => response.json()).then(data => {
             addProjectsToMenu(data);
+            console.log(data)
         }).catch((error) => console.error('Error:', error));
     },
 }
