@@ -41,12 +41,8 @@ router.get('/', async (req, res) => {
         res.json(projects.rows);
     }
     catch (error) {
-        console.log(`${error}`);
         res.status(200).json({ message: error.message });
     }
-
-    // const projects = await Project.find().catch((error) => res.json({ message: error.message }));
-    // res.json(projects);
 });
 
 module.exports = router;

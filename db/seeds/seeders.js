@@ -50,9 +50,38 @@ const projectsSeed = () => {
     }
 }
 
+const tasksSeed = () => {
+    return {
+        table_name: 'tasks',
+        columns: [
+            {
+                name: 'description',
+                type: 'varchar',
+                values: [
+                    'Desc', 'rip', 'tion'
+                ]
+            },
+            {
+                name: 'priority',
+                type: 'int',
+                values: [
+                    1, 2, 3, 4
+                ]
+            },
+            {
+                name: 'project_id',
+                type: 'int',
+                values: [
+                    1
+                ]
+            }
+        ]
+    }
+}
+
 /* Add function to array to include it in seeder */
 module.exports = { 
     seeds: [
-        usersSeed(), projectsSeed()
+        usersSeed(), projectsSeed(), tasksSeed()
     ]
 }

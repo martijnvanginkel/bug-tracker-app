@@ -3,7 +3,7 @@ const migrations = require('./migrations.js')
 
 const migrateTable = async (table) => {
     try {
-        await connection.pool.query(`DROP TABLE IF EXISTS ${table.name}`);
+        await connection.pool.query(`DROP TABLE IF EXISTS ${table.name} CASCADE`);
         await connection.pool.query(`${table.query}`);
     }
     catch (error) {
