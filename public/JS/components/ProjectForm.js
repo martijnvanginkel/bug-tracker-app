@@ -46,22 +46,28 @@ export const ProjectForm = {
             non_public.checked = true;
         }
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            fetch('http://localhost:5000/api/projects/new', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    'name': name.value,
-                    'description': description.value,
-                    'non_public': non_public.checked
-                }),
-            }).then(response => response.json()).then(data => {
+
+            try {
+                const response = await fetch('http://localhost:5000/api/projects/new', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'name': name.value,
+                        'description': description.value,
+                        'non_public': non_public.checked
+                    }),
+                });
+                const new_project = await response.json();
                 clearFields();
-                addProjectsToMenu([data]);
-            }).catch((error) => console.error('Error:', error));
+                addProjectsToMenu([new_project]);
+
+            } catch (error) {
+                console.log(error)
+            }
         });
 
         const clear_btn = document.querySelector('.clear_btn');

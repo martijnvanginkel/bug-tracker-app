@@ -3,30 +3,22 @@ const http = require('http');
 const express = require('express');
 const app = express();
 const server = http.createServer(app);
+const body_parser = require('body-parser');
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// const pool = new pg.Pool({
-//     user: 'postgres',
-//     password: 'password',
-//     host: 'localhost',
-//     port: 5432,
-//     database: 'bugtracker',
-//     max: 5,
-//     connectionTimeoutMillis: 0,
-//     idleTimeoutMillis: 0
-// });
-
 /* Routes */
-const projectAPIRouter = require('./routes/api/projects');
-app.use('/api/projects', projectAPIRouter);
+const web_router = require('./routes/web');
+const api_router = require('./routes/api');
+app.use('/', web_router)
+app.use('/api/', api_router);
 
-app.get('/', async (req, res) => {
-    res.render('index');
-});
+// app.get('/', async (req, res) => {
+//     res.render('index');
+// });
 
 const PORT = 5000;
 

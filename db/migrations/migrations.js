@@ -33,8 +33,6 @@ const tasksTable = () => {
     `);
 }
 
-
-
 /* Add function to array to include it in migration */
 module.exports = { 
     tables: [
