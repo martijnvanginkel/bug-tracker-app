@@ -58,21 +58,21 @@ const tasksSeed = () => {
                 name: 'description',
                 type: 'varchar',
                 values: [
-                    'Desc', 'rip', 'tion'
+                    'One', 'Two', 'three', 'four', 'five'
                 ]
             },
             {
                 name: 'priority',
                 type: 'int',
                 values: [
-                    1, 2, 3, 4
+                    0, 1, 2, 3, 4
                 ]
             },
             {
                 name: 'project_id',
                 type: 'int',
                 values: [
-                    1
+                    1, 1, 1, 2, 3
                 ]
             }
         ]

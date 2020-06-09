@@ -2,10 +2,9 @@ export const addProjectsToMenu = (projects) => {
     const list = document.getElementById('project_list');
     if (list === undefined || list === null) return;
     projects.forEach((project) => {
-        console.log(project)
         const element = document.createElement('li');
         element.innerHTML = `
-            <a href="/#/project/show/${project._id}">${project.name}</a>
+            <a href="/#/project/show/${project.id}">${project.name}</a>
         `;
         list.append(element);
     });
@@ -43,7 +42,6 @@ export const SideBar = {
             }
         }).then(response => response.json()).then(data => {
             addProjectsToMenu(data);
-
             console.log(data)
         }).catch((error) => console.error('Error:', error));
     },

@@ -15,11 +15,11 @@ const newProject = async (req, res) => {
         const project = await connection.pool.query(`
             INSERT INTO projects (name, description, non_public) 
             VALUES ($1, $2, $3)
-            RETURNING *
+            RETURNING id name
         `, [req.body.name, req.body.description, req.body.non_public]);
-
-        res.json({  
-                name: project.rows[0].name
+        res.json({
+            id: project.rows[0].id,
+            name: project.rows[0].name
         });
     }
     catch (error) {
@@ -27,4 +27,27 @@ const newProject = async (req, res) => {
     }
 }
 
-module.exports = { getProjects, newProject }
+const showProject = async (req, res) => {
+    try {
+        console.log(req.params.id)
+        const project = await connection.pool.query(`
+            SELECT
+                name,
+                projects.description,
+                json_agg(json_build_array(tasks.id, tasks.description))
+            FROM projects
+            inner join tasks on projects.id = tasks.project_id
+            where projects.id = ${req.params.id}
+            group by name, projects.description
+            
+            `);
+        const project2 = project.rows;
+        console.log(project.rows);
+        res.json({ project2 })
+    }
+    catch (error) {
+        
+    }
+}
+
+module.exports = { getProjects, newProject, showProject }
