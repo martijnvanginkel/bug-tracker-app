@@ -29,24 +29,21 @@ const newProject = async (req, res) => {
 
 const showProject = async (req, res) => {
     try {
-        console.log(req.params.id)
         const project = await connection.pool.query(`
             SELECT
                 name,
                 projects.description,
-                json_agg(json_build_array(tasks.id, tasks.description))
+                json_agg(json_build_object('id', tasks.id, 'priority', tasks.priority, 'description', tasks.description, 'state', tasks.state)) AS tasks
             FROM projects
-            inner join tasks on projects.id = tasks.project_id
-            where projects.id = ${req.params.id}
-            group by name, projects.description
-            
-            `);
-        const project2 = project.rows;
-        console.log(project.rows);
-        res.json({ project2 })
+            INNER JOIN tasks ON projects.id = tasks.project_id
+            WHERE projects.id = $1
+            GROUP BY name, projects.description    
+        `, [req.params.id]);
+        const data = project.rows;
+        res.json({ data });
     }
     catch (error) {
-        
+        res.status(status.error).json({ message: error.message });
     }
 }
 

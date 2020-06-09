@@ -69,6 +69,13 @@ const tasksSeed = () => {
                 ]
             },
             {
+                name: 'state',
+                type: 'varchar',
+                values: [
+                    'DOING', 'TODO', 'DOING', 'DOING', 'DONE'
+                ]
+            },
+            {
                 name: 'project_id',
                 type: 'int',
                 values: [

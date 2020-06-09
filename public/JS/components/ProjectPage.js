@@ -36,7 +36,8 @@ export const addTaskToList = async (task, project_id) => {
     element.setAttribute('draggable', true);
     element.innerHTML = await Task.render(task);
     await Task.addEvents(element, task, project_id);
-
+    console.log(`task: ${task.priority}`);
+    
     listMap.get(task.state).append(element);
 }
 
@@ -75,7 +76,11 @@ export const ProjectPage = {
 
         const project = await getProjectByID(id);
         initializeLists();
-        project.tasks.forEach((task) => addTaskToList(task, id));
+        const project_data = project.data[0];
+
+
+        console.log(project_data);
+        project_data.tasks.forEach((task) => addTaskToList(task, id));
 
         /* Add task form */
         // const element = document.createElement('div');

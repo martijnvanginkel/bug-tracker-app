@@ -41,8 +41,9 @@ export const SideBar = {
                 'Content-Type': 'application/json',
             }
         }).then(response => response.json()).then(data => {
+            console.log(data);
             addProjectsToMenu(data);
-            console.log(data)
+            // console.log(data)
         }).catch((error) => console.error('Error:', error));
     },
 }
