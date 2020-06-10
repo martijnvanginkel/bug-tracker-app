@@ -3,17 +3,24 @@ const usersSeed = () => {
         table_name: 'users',
         columns: [
             {
-                name: 'email',
+                name: 'name',
                 type: 'varchar',
                 values: [
                     'Martijn', 'Hank', 'John'
                 ]
             },
             {
-                name: 'age',
-                type: 'int',
+                name: 'email',
+                type: 'varchar',
                 values: [
-                    13, 14, 27
+                    'hoi@hoi.nl', 'martijn@martijn.nl', 'hallo@hallo.com'
+                ]
+            },
+            {
+                name: 'password',
+                type: 'varchar',
+                values: [
+                    'poop', 'kak', 'poepies'
                 ]
             }
         ]

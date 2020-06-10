@@ -9,8 +9,9 @@ const formatTable = (name, query) => {
 const usersTable = () => {
     return formatTable('users', `
         id SERIAL PRIMARY KEY,
-        email varchar,
-        age int
+        name varchar(255),
+        email varchar(255),
+        password varchar(255)
     `);
 }
 
