@@ -1,16 +1,13 @@
 const connection = require('../db/connection');
 const bcrypt = require('bcrypt'); 
-const passport = require('passport');
-
-
-const initializePassport = require('./passport-config');
-initializePassport(
-    passport, 
-    email => 
-)
 
 const getLogin = async (req, res) => {
     res.render('auth/login');
+}
+
+const postLogin = async (req, res) => {
+
+
 }
 
 const getRegister = async (req, res) => {
@@ -31,4 +28,4 @@ const postRegister = async (req, res) => {
     }
 }
 
-module.exports = { getLogin, getRegister, postRegister }
+module.exports = { getLogin, getRegister, postRegister, postLogin }
