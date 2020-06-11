@@ -4,9 +4,6 @@ const router = express.Router();
 const AuthController = require('./../controllers/AuthController');
 
 
-
-
-
 router.get('/', checkAuthenticated ,async (req, res) => {
     console.log(`req user`)
     const user = await req.user;
@@ -42,6 +39,11 @@ function checkNotAuthenticated(req, res, next) {
     }
     next();
 }
+
+router.delete('/logout', (req, res) => {
+    req.logOut();
+    res.redirect('/login');
+})
 
 
 router.get('/register', AuthController.getRegister);

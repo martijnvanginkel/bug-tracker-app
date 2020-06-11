@@ -13,9 +13,13 @@ if (process.env.NODE_ENV !== 'production') {
 
 const bcrypt = require('bcrypt'); 
 const passport = require('passport');
+const methodOverride = require('method-override');
 
 const initializePassport = require('./controllers/passport-config');
 initializePassport.initialize(passport);
+
+
+app.use(methodOverride('_method'));
 
 
 const flash = require('express-flash');
