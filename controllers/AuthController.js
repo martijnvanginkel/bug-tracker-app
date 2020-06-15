@@ -25,8 +25,10 @@ const postLogin = async (req, res) => {
     const user = await findUserByEmail(req.body.email);
     if (user === null || user === undefined) {
         console.log('No user found');
+        req.flash('message', 'no user found');
         return res.redirect('login');
     }
+    console.log('were here');
     const correct_password = await bcrypt.compare(req.body.password, user.password);
     if (!correct_password) {
         console.log('Incorrect password');
@@ -39,9 +41,11 @@ const postLogin = async (req, res) => {
         email: user.email
     }, 'secretkey');
 
-    res.header('auth-token', token);
-    console.log(req.get('auth-token'));
-    res.redirect('/');
+    console.log('token created');
+    res.cookie('cookie-name', 'cookie-value')
+    // res.set('auth-token', token);
+    // res.header('Access-Control-Expose-Headers', 'auth-token').header('auth-token', token);
+    return res.redirect('/');
 }
 
 const postRegister = async (req, res) => {

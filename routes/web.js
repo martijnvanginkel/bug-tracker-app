@@ -3,7 +3,23 @@ const router = express.Router();
 const AuthController = require('./../controllers/AuthController');
 
 
-router.get('/', (req, res) => {
+
+const isAuthorized = (req, res, next) => {
+    console.log('now we are here');
+    // const token = req.cookie.auth-token;//('auth-token');
+    // console.log(token)
+    // if (!token){
+    //     return res.status(401).send('no token')
+    // }
+    console.log(req.cookies['cookie-name']);//('auth-token'));
+
+    const cookie_value = req.cookies['cookie-name']; // this gets the cookie by name
+
+    next();
+}
+
+
+router.get('/', isAuthorized, (req, res) => {
     res.render('index');
 })
 router.get('/login', AuthController.getLogin);
