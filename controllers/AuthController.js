@@ -42,7 +42,7 @@ const postLogin = async (req, res) => {
     }, 'secretkey');
 
     console.log('token created');
-    res.cookie('cookie-name', 'cookie-value')
+    res.cookie('jwt-token', token)
     // res.set('auth-token', token);
     // res.header('Access-Control-Expose-Headers', 'auth-token').header('auth-token', token);
     return res.redirect('/');

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const AuthController = require('./../controllers/AuthController');
 
 
@@ -11,9 +12,18 @@ const isAuthorized = (req, res, next) => {
     // if (!token){
     //     return res.status(401).send('no token')
     // }
-    console.log(req.cookies['cookie-name']);//('auth-token'));
 
-    const cookie_value = req.cookies['cookie-name']; // this gets the cookie by name
+    const token = req.cookies['jwt-token']; // this gets the cookie by name
+    if (!token) return res.status(401).send('Access denied');
+    try {
+        const verified = jwt.verify(token, 'secretkey');
+        console.log('yes verified bitch' + verified);
+        next();
+    }
+    catch (error) {
+        res.status(400).send('Invalid token');
+    }
+
 
     next();
 }
