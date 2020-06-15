@@ -1,26 +1,57 @@
 const connection = require('../db/connection');
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const getLogin = async (req, res) => {
-    res.render('auth/login');
-}
-
-const postLogin = async (req, res) => {
-
-
+    // req.flash('message', 'You are successfully using req-flash');
+    res.render('auth/login', { message: req.flash('message') } );
 }
 
 const getRegister = async (req, res) => {
     res.render('auth/register');
+    // req.flash('message', 'You are successfully using req-flash');
+    // res.redirect('/login');
+}
+
+const findUserByEmail = async (email) => {
+    const user = await connection.pool.query(`
+        SELECT * FROM users
+        WHERE users.email = $1
+    `, [email]);
+    return user.rows[0];
+}
+
+const postLogin = async (req, res) => {
+    const user = await findUserByEmail(req.body.email);
+    if (user === null || user === undefined) {
+        console.log('No user found');
+        return res.redirect('login');
+    }
+    const correct_password = await bcrypt.compare(req.body.password, user.password);
+    if (!correct_password) {
+        console.log('Incorrect password');
+        req.flash('message', 'incorrect password')
+        return res.redirect('login');
+    }
+    const token = jwt.sign({ 
+        id: user.id,
+        name: user.name,
+        email: user.email
+    }, 'secretkey');
+
+    res.header('auth-token', token);
+    console.log(req.get('auth-token'));
+    res.redirect('/');
 }
 
 const postRegister = async (req, res) => {
     try {
         const hashed_password = await bcrypt.hash(req.body.password, 10);
-        await connection.pool.query(`
+        const user = await connection.pool.query(`
             INSERT INTO users (name, email, password)
             VALUES ($1, $2, $3)
-        `, [req.body.name, req.body.email, hashed_password]);
+            RETURNING id, name, email
+        `, [req.body.name, req.body.email, hashed_password]);   
         res.redirect('login');
     } 
     catch (error) {

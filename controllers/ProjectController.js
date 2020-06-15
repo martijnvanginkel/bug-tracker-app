@@ -1,7 +1,13 @@
 const connection = require('../db/connection');
+const jwt = require('jsonwebtoken');
 
 const getProjects = async (req, res) => {
     try {
+        jwt.verify(req.token, 'secretkey', (error, res) => {
+            if (error) {
+                res.json({ message: 'Error' })
+            }
+        });
         const projects = await connection.pool.query(`SELECT * FROM projects`);
         res.json(projects.rows);
     }

@@ -1,39 +1,17 @@
-const path = require('path');
-const http = require('http');
-const express = require('express');
-const app = express();
-const server = http.createServer(app);
-
-
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-
-const bcrypt = require('bcrypt'); 
-const passport = require('passport');
-const methodOverride = require('method-override');
-
-const initializePassport = require('./controllers/passport-config');
-initializePassport.initialize(passport);
-
-
-app.use(methodOverride('_method'));
-
-
-const flash = require('express-flash');
+const path = require('path');
+const http = require('http');
+const express = require('express');
+const cookie_parser = require('cookie-parser');
 const session = require('express-session');
-
-app.use(flash());
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-
+const flash = require('req-flash');
+const app = express();
+const server = http.createServer(app);
+const method_override = require('method-override');
 
 
 
@@ -41,6 +19,14 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(method_override('_method'));
+app.use(cookie_parser());
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: false,
+    resave: false
+}));
+app.use(flash());
 
 /* Routes */
 const web_router = require('./routes/web');
