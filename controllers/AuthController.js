@@ -53,4 +53,14 @@ const postRegister = async (req, res) => {
     }
 }
 
-module.exports = { getLogin, getRegister, postRegister, postLogin }
+const logOut = async (req, res) => {
+    try {
+        res.clearCookie('jwt-token');
+        res.redirect('/login');
+    }
+    catch (error) {
+        res.redirect('/');
+    }
+}
+
+module.exports = { getLogin, getRegister, postRegister, postLogin, logOut }

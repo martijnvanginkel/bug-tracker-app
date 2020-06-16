@@ -31,6 +31,9 @@ export const SideBar = {
                         <ul id="project_list"></ul>
                     </li>
                 </ul>
+                <form action="/logout" method="POST">
+                    <button type="submit">Logout</button>
+                </form>
             </aside>
         `;
     },
@@ -42,7 +45,7 @@ export const SideBar = {
             }
         }).then(response => response.json()).then(data => {
             console.log(data);
-            addProjectsToMenu(data);
+            // addProjectsToMenu(data);
             // console.log(data)
         }).catch((error) => console.error('Error:', error));
     },
