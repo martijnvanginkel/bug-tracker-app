@@ -8,8 +8,13 @@ const shuffleTask = async (req, res) => {
 
         const task = await connection.pool.query(`
             UPDATE tasks
-            SET priority = 3, state = 'asdf'
-            WHERE id = ${req.params.id}
+            SET priority = 
+                    CASE 
+                        WHEN priority > 1 THEN 9
+                        WHEN priority < 2 THEN 8
+                    END,
+                state = 'TODO'
+            WHERE priority in (priority) AND state in (state)
         `);
 
         console.log(task)

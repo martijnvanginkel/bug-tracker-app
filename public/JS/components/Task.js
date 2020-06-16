@@ -12,8 +12,8 @@ const moveTask = (project_id, task_id, old_state, new_state) => {
             'new_state': new_state
         }),
     }).then(response => response.json()).then(data => {
-        console.log('response');
-        console.log(data);
+        // console.log('response');
+        // console.log(data);
     }).catch((error) => console.error('Error:', error));
 }
 
@@ -52,8 +52,8 @@ export const Task = {
                                 priority: i
                             }
 
-                            console.log(`task_data: ${task_data.id}`)
-
+                            // console.log(`task_data: ${task_data.id}`)
+                            // console.log(`old: ${old_state.priority} ${old_state.state} \n new: ${new_state.priority}`)
                             moveTask(project_id, task_data.id, old_state, new_state);
                             return;
                         }
