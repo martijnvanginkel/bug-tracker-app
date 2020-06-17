@@ -33,11 +33,11 @@ const showProject = async (req, res) => {
             SELECT
                 name,
                 projects.description,
-                json_agg(json_build_object('id', tasks.id, 'priority', tasks.priority, 'description', tasks.description, 'state', tasks.state)) AS tasks
+                json_agg(json_build_object('id', tasks.id, 'priority', tasks.priority, 'description', tasks.description, 'state', tasks.state) ORDER BY priority) AS tasks
             FROM projects
             INNER JOIN tasks ON projects.id = tasks.project_id
             WHERE projects.id = $1
-            GROUP BY name, projects.description    
+            GROUP BY name, projects.description
         `, [req.params.id]);
         const data = project.rows;
         res.json({ data });

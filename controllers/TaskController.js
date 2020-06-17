@@ -7,7 +7,7 @@ const shuffleTask = async (req, res) => {
         console.log(`a${req.body.new_state.priority}a`)
 
         if (req.body.new_state.priority < req.body.old_state.priority) {
-            console.log('update');
+            console.log('update up');
             const task = await connection.pool.query(`
                 UPDATE tasks
                 SET priority = 
@@ -16,6 +16,18 @@ const shuffleTask = async (req, res) => {
                         WHEN priority = ${req.body.old_state.priority} THEN ${req.body.new_state.priority}
                     END
                 WHERE state = '${req.body.old_state.state}' AND project_id = ${req.body.project_id} AND priority BETWEEN ${req.body.new_state.priority} AND ${req.body.old_state.priority}
+            `);
+        }
+        else {
+            console.log('update down');
+            const task = await connection.pool.query(`
+                UPDATE tasks
+                SET priority = 
+                    CASE
+                        WHEN priority BETWEEN ${req.body.old_state.priority} AND ${req.body.new_state.priority - 1} THEN priority - 1
+                        WHEN priority = ${req.body.old_state.priority} THEN ${req.body.new_state.priority}
+                    END
+                WHERE state = '${req.body.old_state.state}' AND project_id = ${req.body.project_id} AND priority BETWEEN ${req.body.old_state.priority} AND ${req.body.new_state.priority}
             `);
         }
         // WHEN priority BETWEEN 0 AND 1 THEN priority + 1

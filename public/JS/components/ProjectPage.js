@@ -38,7 +38,7 @@ export const addTaskToList = async (task, project_id) => {
     await Task.addEvents(element, task, project_id);
     // console.log(`task: ${task.priority}`);
     
-    console.log(task)
+    // console.log(task)
     // console.log(listMap.get(task.state));
 
 
@@ -83,7 +83,7 @@ export const ProjectPage = {
         const project_data = project.data[0];
 
 
-        // console.log(`project_data: ${project_data}`);
+        console.log(`project_data: ${project_data}`);
         project_data.tasks.forEach((task) => addTaskToList(task, id));
 
         /* Add task form */
