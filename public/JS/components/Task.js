@@ -1,6 +1,7 @@
 import { listMap } from "./ProjectPage.js";
 
 const moveTask = (project_id, task_id, old_state, new_state) => {
+    console.log('move task')
     fetch(`http://localhost:5000/api/tasks/shuffle/${task_id}`, {
         method: 'PUT',
         headers: {
@@ -12,7 +13,7 @@ const moveTask = (project_id, task_id, old_state, new_state) => {
             'new_state': new_state
         }),
     }).then(response => response.json()).then(data => {
-        // console.log('response');
+        console.log('response');
         // console.log(data);
     }).catch((error) => console.error('Error:', error));
 }
@@ -52,10 +53,24 @@ export const Task = {
                                 priority: i
                             }
 
+                            if (new_state.state === old_state.state) {
+                                console.log('same state');
+                                // return ;
+                                // console.log('asdfsafasdfasdfadsfa');
+                                console.log(new_state.priority);
+                                console.log(old_state.priority)
+                                if (new_state.priority === old_state.priority) {
+                                    console.log('same priority');
+                                    return ;
+                                }
+                                console.log('trigger this')
+                                moveTask(project_id, task_data.id, old_state, new_state);
+                            }
+                            // console.log()
+                            
                             // console.log(`task_data: ${task_data.id}`)
                             // console.log(`old: ${old_state.priority} ${old_state.state} \n new: ${new_state.priority}`)
-                            moveTask(project_id, task_data.id, old_state, new_state);
-                            return;
+                            // return;
                         }
                     });
                     return;
