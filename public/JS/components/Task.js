@@ -1,20 +1,19 @@
 import { listMap } from "./ProjectPage.js";
 
-const moveTask = (project_id, task_id, old_state, new_state) => {
+const moveTask = (project_id, task_id, old_pos, new_pos) => {
     console.log('move task')
-    fetch(`http://localhost:5000/api/tasks/shuffle/${task_id}`, {
+    fetch(`http://localhost:5000/api/tasks/move/${task_id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             'project_id': project_id,
-            'old_state': old_state,
-            'new_state': new_state
+            'old_pos': old_pos,
+            'new_pos': new_pos
         }),
     }).then(response => response.json()).then(data => {
         console.log('response');
-        // console.log(data);
     }).catch((error) => console.error('Error:', error));
 }
 
@@ -42,38 +41,13 @@ export const Task = {
                 if (children[i] === e.target) {
                     listMap.forEach((key, value) => {
                         if (key === parent) {
-
-                            const old_state = {
-                                state: task_data.state,
-                                priority: task_data.priority
-                            }
-
-                            const new_state = {
-                                state: value,
-                                priority: i
-                            }
-
-                            if (new_state.state === old_state.state) {
-                                console.log('same state');
-                                // return ;
-                                // console.log('asdfsafasdfasdfadsfa');
-                                console.log(new_state.priority);
-                                console.log(old_state.priority)
-                                if (new_state.priority === old_state.priority) {
-                                    console.log('same priority');
-                                    return ;
-                                }
-                                console.log('trigger this')
-                                moveTask(project_id, task_data.id, old_state, new_state);
-                            }
-                            // console.log()
-                            
-                            // console.log(`task_data: ${task_data.id}`)
-                            // console.log(`old: ${old_state.priority} ${old_state.state} \n new: ${new_state.priority}`)
-                            // return;
+                            const old_pos = { state: task_data.state, priority: task_data.priority };
+                            const new_pos = { state: value, priority: i };
+                            if (old_pos.state == new_pos.state && old_pos.priority == new_pos.priority) return;
+                            moveTask(project_id, task_data.id, old_pos, new_pos);
+                            return;
                         }
                     });
-                    return;
                 }           
             }
         });

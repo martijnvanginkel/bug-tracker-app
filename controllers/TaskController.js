@@ -1,56 +1,21 @@
-const connection = require('../db/connection');
-
-const shuffleTask = async (req, res) => {
-    try {
-        console.log('shuffle task')
-        console.log(`a${req.body.old_state.priority}a`)
-        console.log(`a${req.body.new_state.priority}a`)
-
-        if (req.body.new_state.priority < req.body.old_state.priority) {
-            console.log('update up');
-            const task = await connection.pool.query(`
-                UPDATE tasks
-                SET priority = 
-                    CASE
-                        WHEN priority BETWEEN ${req.body.new_state.priority} AND ${req.body.old_state.priority - 1} THEN priority + 1
-                        WHEN priority = ${req.body.old_state.priority} THEN ${req.body.new_state.priority}
-                    END
-                WHERE state = '${req.body.old_state.state}' AND project_id = ${req.body.project_id} AND priority BETWEEN ${req.body.new_state.priority} AND ${req.body.old_state.priority}
-            `);
-        }
-        else {
-            console.log('update down');
-            const task = await connection.pool.query(`
-                UPDATE tasks
-                SET priority = 
-                    CASE
-                        WHEN priority BETWEEN ${req.body.old_state.priority + 1} AND ${req.body.new_state.priority} THEN priority - 1
-                        WHEN priority = ${req.body.old_state.priority} THEN ${req.body.new_state.priority}
-                    END
-                WHERE state = '${req.body.old_state.state}' AND project_id = ${req.body.project_id} AND priority BETWEEN ${req.body.old_state.priority} AND ${req.body.new_state.priority}
-            `);
-        }
-        const result = {};
-        res.json({ result });
-    }
-    catch (error) {
-        res.status(status.error).json({ message: error.message });
-    }
-}
+const Task = require('./../models/Task');
 
 const moveTask = async (req, res) => {
+    const old_pos = req.body.old_pos;
+    const new_pos = req.body.new_pos;
+    let result;
     try {
-        console.log('move task')
-        const task = await connection.pool.query(`
-            UPDATE tasks
-            SET priority = 
-                CASE
-                    WHEN priority >= ${req.body.new_state.priority} THEN priority + 1
-                END
-            WHERE state = '${req.body.new_state.state}' AND project_id = ${req.body.project_id} AND priority >= ${req.body.new_state.priority}
-        `);
-        
-        const result = {};
+        if (old_pos.state === new_pos.state) {
+            if (old_pos.priority < new_pos.priority) {
+                result = Task.sortTaskDown(old_pos, new_pos, req.body.project_id);
+            }
+            else {
+                result = Task.sortTaskUp(old_pos, new_pos, req.body.project_id);
+            }
+        }
+        else {
+            result = Task.relocateTask(old_pos, new_pos, req.params.id, req.body.project_id);
+        }
         res.json({ result });
     }
     catch (error) {
@@ -58,4 +23,4 @@ const moveTask = async (req, res) => {
     }
 }
 
-module.exports = { shuffleTask }
+module.exports = { moveTask }

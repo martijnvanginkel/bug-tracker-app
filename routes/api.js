@@ -8,7 +8,8 @@ router.get('/projects', auth_middleware.isAuthorized, ProjectController.getProje
 router.get('/projects/:id', ProjectController.showProject);
 router.post('/projects/new', ProjectController.newProject);
 
-router.put('/tasks/shuffle/:id', TaskController.shuffleTask);
+// router.put('/tasks/shuffle/:id', TaskController.shuffleTask);
+router.put('/tasks/move/:id', TaskController.moveTask);
 
 
 module.exports = router;
