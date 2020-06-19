@@ -1,8 +1,7 @@
 import { listMap } from "./ProjectPage.js";
 
-const moveTask = (project_id, task_id, old_pos, new_pos) => {
-    console.log('move task')
-    fetch(`http://localhost:5000/api/tasks/move/${task_id}`, {
+const moveTask = (project_id, id, old_pos, new_pos) => {
+    fetch(`http://localhost:5000/api/tasks/move/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -12,9 +11,22 @@ const moveTask = (project_id, task_id, old_pos, new_pos) => {
             'old_pos': old_pos,
             'new_pos': new_pos
         }),
-    }).then(response => response.json()).then(data => {
-        console.log('response');
-    }).catch((error) => console.error('Error:', error));
+    }).then(response => response.json()).catch((error) => console.error('Error:', error));
+}
+
+const removeTask = (id) => {
+    console.log('remove task front')
+    fetch(`http://localhost:5000/api/tasks/remove/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            // 'project_id': project_id,
+            // 'old_pos': old_pos,
+            // 'new_pos': new_pos
+        }),
+    }).then(response => response.json()).catch((error) => console.error('Error:', error));
 }
 
 export const Task = {
@@ -26,7 +38,7 @@ export const Task = {
             <form action="" class="edit_task">
                 <button type="submit">EDIT</button>
             </form>
-            <form action="" class="remove_task">
+            <form action="/api/tasks/remove/${task.id}?_method=DELETE" method="POST" class="remove_task">
                 <button type="submit">X</button>
             </form> 
         `;
@@ -63,6 +75,8 @@ export const Task = {
         remove_task.addEventListener('submit', (e) => {
             e.preventDefault();
             // fetch request here
+            console.log('clicked remove');
+            removeTask(task_data.id);
         })
 
 

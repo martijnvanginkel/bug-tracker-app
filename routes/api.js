@@ -10,6 +10,7 @@ router.post('/projects/new', ProjectController.newProject);
 
 // router.put('/tasks/shuffle/:id', TaskController.shuffleTask);
 router.put('/tasks/move/:id', TaskController.moveTask);
+router.delete('/tasks/remove/:id', TaskController.removeTask);
 
 
 module.exports = router;

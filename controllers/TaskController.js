@@ -3,24 +3,27 @@ const Task = require('./../models/Task');
 const moveTask = async (req, res) => {
     const old_pos = req.body.old_pos;
     const new_pos = req.body.new_pos;
-    let result;
-    try {
-        if (old_pos.state === new_pos.state) {
-            if (old_pos.priority < new_pos.priority) {
-                result = Task.sortTaskDown(old_pos, new_pos, req.body.project_id);
-            }
-            else {
-                result = Task.sortTaskUp(old_pos, new_pos, req.body.project_id);
-            }
-        }
-        else {
-            result = Task.relocateTask(old_pos, new_pos, req.params.id, req.body.project_id);
-        }
-        res.json({ result });
+    let response;
+
+    if (old_pos.state !== new_pos.state) {
+        response = await Task.relocateTask(old_pos, new_pos, req.params.id, req.body.project_id);
     }
-    catch (error) {
-        res.status(status.error).json({ message: error.message });
+    else if (old_pos.priority < new_pos.priority) {
+        response = await Task.sortTaskDown(old_pos, new_pos, req.body.project_id);
     }
+    else {
+        response = await Task.sortTaskUp(old_pos, new_pos, req.body.project_id);
+    }
+    if (response.error) {
+        res.status(status.response.error).json({ message: response.error.message });
+    }
+    res.json({ response });
 }
 
-module.exports = { moveTask }
+const removeTask = async (req, res) => {
+    
+    
+    res.json({ hoi: 'hoi' })
+}
+
+module.exports = { moveTask, removeTask }
