@@ -84,6 +84,11 @@ export const ProjectPage = {
 
 
         console.log(`project_data: ${project_data}`);
+
+        if (project_data === undefined || project_data === null) {
+            return ;
+        }
+
         project_data.tasks.forEach((task) => addTaskToList(task, id));
 
         /* Add task form */

@@ -9,7 +9,7 @@ aside {
 
 main {
     flex-grow: 1;
-    max-width: 480px;
+    max-width: 960px;
     margin-left: 5%;
     padding-top: 10px;
 }
@@ -41,4 +41,8 @@ main {
 
 .dragging_task {
     opacity: 0.5;
+}
+
+.hide_element {
+    display: none;
 }

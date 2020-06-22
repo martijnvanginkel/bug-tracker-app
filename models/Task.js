@@ -1,5 +1,50 @@
 const connection = require('./../db/connection');
 
+const removeTask = async (id) => {
+    try {
+        const response = await connection.pool.query(`
+            DELETE FROM tasks
+            WHERE id = $1
+            RETURNING *
+        `, [id]);
+        const task = response.rows[0];
+        return { task };
+    }
+    catch (error) {
+        return { error: error.message };
+    }
+}
+
+const editTask = async (id, description) => {
+    try {
+        const response = await connection.pool.query(`
+            UPDATE tasks
+            SET description = $2
+            WHERE id = $1
+            RETURNING description
+        `, [id, description]);
+        const task = response.rows[0];
+        return { task };
+    }
+    catch (error) {
+        return { error: error.message };
+    }
+}
+
+const decrementTasksAbove = async (project_id, state, priority) => {
+    try {
+        const response = await connection.pool.query(`
+            UPDATE tasks
+            SET priority = priority - 1
+            WHERE priority > $1 AND state = $2 AND project_id = $3
+        `, [priority, state, project_id]);
+        return { response: response };
+    }
+    catch (error) {
+        return { error: error.message };
+    }
+}
+
 const sortTaskDown = async (old_pos, new_pos, project_id) => {
     try {     
         const task = await connection.pool.query(`
@@ -38,16 +83,19 @@ const sortTaskUp = async (old_pos, new_pos, project_id) => {
 
 const relocateTask = async (old_pos, new_pos, id, project_id) => {
     try {
+        /* Increment the tasks above the task in the new location */
         await connection.pool.query(`
             UPDATE tasks
             SET priority = priority + 1
             WHERE state = $1 AND priority >= $2 AND project_id = $3
-        `, [new_pos.state, new_pos.priority, project_id]);  
+        `, [new_pos.state, new_pos.priority, project_id]);
+        /* Decrement the tasks above the task in the old location */
         await connection.pool.query(`
             UPDATE tasks
             SET priority = priority - 1
             WHERE state = $1 AND priority > $2 AND project_id = $3
         `, [old_pos.state, old_pos.priority, project_id]);
+        /* Update the task itself */
         const task = await connection.pool.query(`
             UPDATE tasks
             SET priority = $1,
@@ -61,4 +109,4 @@ const relocateTask = async (old_pos, new_pos, id, project_id) => {
     }
 }
 
-module.exports = { relocateTask, sortTaskUp, sortTaskDown }
+module.exports = { removeTask, editTask, decrementTasksAbove, relocateTask, sortTaskUp, sortTaskDown }
