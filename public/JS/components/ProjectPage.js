@@ -68,7 +68,14 @@ const initializeLists = () => {
 export const ProjectPage = {
     render : async () => {
         return `
-            <h1 class="project_title"></h1>
+            <div class="project_info">
+                <h1 class="project_title"></h1>
+                <p class="project_description"></p>
+            </div>
+            <div class="project_users">
+                <div class="user_tags"></div>
+                
+            </div>
             <div class="task_container">
                 <div class="task_list to_do_list"></div>
                 <div class="task_list doing_list"></div>
@@ -77,17 +84,21 @@ export const ProjectPage = {
         `;
     },
     addEvents : async (id) => {
-
         const project = await getProjectByID(id);
-        initializeLists();
         const project_data = project.data[0];
+        console.log(project_data)
+        if (project_data === undefined || project_data === null) return;
+        
+        const title = document.querySelector('.project_title');
+        const description = document.querySelector('.project_description');
+        title.innerHTML = project_data.name;
+        description.innerHTML = project_data.description;
 
 
-        console.log(`project_data: ${project_data}`);
+        initializeLists();
 
-        if (project_data === undefined || project_data === null) {
-            return ;
-        }
+
+        console.log(`project_data: ${project_data.name}`);
 
         project_data.tasks.forEach((task) => addTaskToList(task, id));
 

@@ -27,6 +27,7 @@ const newProject = async (req, res) => {
     }
 }
 
+
 const showProject = async (req, res) => {
     try {
         const project = await connection.pool.query(`
@@ -35,11 +36,11 @@ const showProject = async (req, res) => {
                 projects.description,
                 json_agg(json_build_object('id', tasks.id, 'priority', tasks.priority, 'description', tasks.description, 'state', tasks.state) ORDER BY priority) AS tasks
             FROM projects
-            INNER JOIN tasks ON projects.id = tasks.project_id
+            LEFT JOIN tasks ON projects.id = tasks.project_id
             WHERE projects.id = $1
             GROUP BY name, projects.description
-        `, [req.params.id]);
-        const data = project.rows;
+            `, [req.params.id]);
+            const data = project.rows;
         res.json({ data });
     }
     catch (error) {
