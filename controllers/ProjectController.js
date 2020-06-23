@@ -12,95 +12,47 @@ const getProjects = async (req, res) => {
 }
 
 const newProject = async (req, res) => {
-    // try {
-        const token = req.cookies['jwt-token'];
-        const decoded = jwt.verify(token, 'secretkey');
-        const user_id = decoded.id;
-        
-
-        
-        // try {
-        //     // await connection.pool.query('BEGIN');
-        //     await connection.pool.query(`
-        //     INSERT INTO projects (name, description)
-        //     VALUES ($1, $2)
-        //     `, ['asdf', 'HEY']);
-        //     console.log('here');
-            
-        // } catch (error) {
-        //     console.log(error)            
-        // }
-
-
-        const client = connection.pool;
+    const token = req.cookies['jwt-token'];
+    const decoded = jwt.verify(token, 'secretkey');
+    const user_id = decoded.id;
+    let client = null;
+    let project = null;
+    try {
+        client = await connection.pool.connect();
+    }
+    catch (error) {
+        console.log(`Client pool error: ${error}`);
+        return error;
+    }
+    try {
+        await client.query('BEGIN');
+        const response = await client.query(`
+            INSERT INTO projects (name, description)
+            VALUES ($1, $2)
+            RETURNING *
+        `, [req.body.name, req.body.description]);
+        project = response.rows[0];
+        await client.query('COMMIT');
+        await client.query(`
+            INSERT INTO users_projects (user_id, project_id)
+            VALUES ($1, $2)
+        `, [user_id, project.id]);
+    } catch (error) {
+        console.log(`Error during transaction: ${error}`);
         try {
-            await client.query('BEGIN');
-            try {
-                
-                const queryText = 'INSERT INTO projects (name, description ) VALUES ($1, $2)';
-                const res = await client.query(queryText, ['hoi', 'asdf'])
-    
-                const queryText2 = 'INSERT INTO projects (name, description ) VALUES ($1, $2)';
-                const res2 = await client.query(queryText2, ['asdf', 'zxvc']);
-         
-                await client.query('COMMIT')
-            }
-            catch (error) {
-                
-            }
+            await client.query('ROLLBACK');
         } catch (error) {
-            console.log(error);
+            console.log(`Error during rollback ${error}`);
         }
-        finally {
-            // client.release()
-        }
-        
-
-
-
-
-        // await connection.pool.query('BEGIN', async () => {
-
-        //     await connection.pool.query(`   
-        //         INSERT INTO projects (name, description)
-        //         VALUES ($1, $2)
-        //     `,['hoi', 'hallo']);
-        // });
-
-
-        // const project = await connection.pool.query(`
-
-
-        //         BEGIN
-          
-
-                
-        //     `, ['HOI', 'HALLO']);
-
-        // INSERT INTO projects (name, description)
-        // VALUES ($1, $2)
-        // RETURNING *
-        // console.log(project.rows[0]);
-
-        // res.json({
-        //     id: project.rows[0].id,
-        //     name: project.rows[0].name
-        // })
-
-
-        // res.json({
-        //     id: project.rows[0].id,
-        //     name: project.rows[0].name
-        // });
-
-        // console.log(project.rows[0])
-        // res.json({});
-        // res.json({ project.rows[0] });
-    // }
-    // catch (error) {
-    //     console.log(error);
-    //     res.status(status.error).json({ message: error.message });
-    // }
+        return error;
+    }
+    finally {
+        client.release();
+    }
+    res.json({ 
+        id: project.id,
+        name: project.name,
+     });
 }
 
 

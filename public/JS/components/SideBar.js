@@ -3,8 +3,10 @@ export const addProjectsToMenu = (projects) => {
     if (list === undefined || list === null) return;
     projects.forEach((project) => {
         const element = document.createElement('li');
+        element.classList.add('menu_item');
         element.innerHTML = `
-            <a href="/#/project/show/${project.id}">${project.name}</a>
+            <a href="/#/project/show/${project.id}" class="menu_link">${project.name}</a>
+            <button type="button" class="delete_project_btn">X</button>
         `;
         list.append(element);
     });
@@ -13,24 +15,18 @@ export const addProjectsToMenu = (projects) => {
 export const SideBar = {
     render : () => {
         return `
-            <aside class="menu aside-menu">
-                <h1 class="side-nav-title"><i class="fa fa-bug" aria-hidden="true"></i>B-TRACK</h1>
-                <p class="menu-label">General</p>
-                <ul class="menu-list">
-                    <li><a href="/#/" class="is-active">Home</a></li>
-                </ul>
-                <p class="menu-label">Admin</p>
-                <ul class="menu-list">
-                    <li><a href="#">Manage Users</a></li>
-                    <li><a href="#">Manage Projects</a></li>
-                </ul>
-                <p class="menu-label">Projects</p>
-                <ul class="menu-list">
-                    <li>
-                    <a href="/#/project/new">New Project</a>
-                        <ul id="project_list"></ul>
-                    </li>
-                </ul>
+            <aside>
+                <h1>B-TRACK</h1>
+                <p class="menu_mark">General</p>
+                <a href="/#/" class="menu_link">Home</a>
+                <p class="menu_mark">Admin</p>
+                <a href="#">Manage Users</a>
+                <a href="#">Manage Projects</a>
+
+                <p class="menu_mark">Projects</p>
+                <a href="/#/project/new">New Project</a>
+                <ul id="project_list"></ul>
+          
                 <form action="/logout" method="POST">
                     <button type="submit" id="logout_button">Logout</button>
                 </form>

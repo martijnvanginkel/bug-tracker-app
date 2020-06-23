@@ -1,10 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
 body {
     display: flex;
     flex-direction: row;
+    font-family: "Nunito", sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+nav {
+    padding: 0;
+    margin: 0;
 }
 
 aside {
-    padding: 5px;
+    /* padding: 5px; */
+    /* background-color: red; */
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+.menu_mark {
+    /* background-color: red; */
+    margin: 0px;
+    font-size: 1em;
+    color: darkgray;
+    font-family: "Nunito", sans-serif;
+}
+
+.menu_link {
+    margin-left: 5px;
+    background-color: blue;
 }
 
 #main_content {
@@ -61,6 +91,30 @@ aside {
 #create_project_title {
     font-size: 1.5em;
     margin-bottom: 10px;
+}
+
+.menu_item {
+    display: flex;
+    flex-direction: row;
+}
+
+.menu_item a {
+    flex-grow: 1;
+    text-decoration: none;
+}
+
+.menu_item a:hover {
+    
+}
+
+.delete_project_btn {
+    background-color: transparent;
+    border: 0;
+    color: transparent;
+}
+
+.delete_project_btn:hover {
+    color: black;
 }
 
 #logout_button {

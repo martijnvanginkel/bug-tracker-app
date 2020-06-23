@@ -1,7 +1,19 @@
 import { addProjectsToMenu } from './SideBar.js';
 
-const createNewProject = () => {
-
+const createNewProject = async (name, description) => {
+    const project = await fetch(`http://localhost:5000/api/projects/new`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            'name': name,
+            'description': description
+        })
+    }).then(response => response.json()).then(data => {
+        return data;
+    }).catch((error) => console.error('Error:', error));
+    return project;
 }
 
 export const ProjectForm = {
@@ -10,7 +22,7 @@ export const ProjectForm = {
             <form action="/api/projects/new" method="POST" id="project_form">
                 <h1 id="create_project_title">Create Project</h1>       
                 <label for="name">Name</label>
-                <input type="text" name="name" class="form_field" id="project_name" required>
+                <input type="text" name="name" class="form_field" id="project_name" maxlength="30" required>
                 <label for="description">Description</label>
                 <input type="text" name="description" class="form_field" id="project_description">
                 <div id="project_buttons">
@@ -36,8 +48,14 @@ export const ProjectForm = {
             clearFields();
         });
 
-        form.addEventListener('submit', (e) => {
-            // e.preventDefault();
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = e.target.name.value;
+            const description = e.target.description.value;
+            const project = await createNewProject(name, description);
+
+            console.log(project)
+            addProjectsToMenu([project]);
         })
 
 
