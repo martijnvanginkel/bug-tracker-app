@@ -33,6 +33,21 @@ aside {
     margin: 4px;
 }
 
+#logout_button {
+    color: darkgray;
+    background-color: transparent;
+    width: 100%;
+    text-align: left;
+    border: 0px;
+    margin-left: 5px;
+    font-size: 1em;
+}
+
+#logout_button:hover {
+    cursor: pointer;
+    color: black;
+}
+
 /* .task_box:hover {
     cursor: pointer;
     transition: 0.1s ease;

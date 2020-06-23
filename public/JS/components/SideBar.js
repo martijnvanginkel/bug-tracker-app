@@ -32,7 +32,7 @@ export const SideBar = {
                     </li>
                 </ul>
                 <form action="/logout" method="POST">
-                    <button type="submit">Logout</button>
+                    <button type="submit" id="logout_button">Logout</button>
                 </form>
             </aside>
         `;
