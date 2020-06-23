@@ -64,3 +64,4 @@ const loadSideBar = async () => {
 
 window.addEventListener('hashchange', hashChanged);
 window.addEventListener('load', loadSideBar);
+window.addEventListener('load', hashChanged);
