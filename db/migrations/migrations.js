@@ -19,8 +19,15 @@ const projectsTable = () => {
     return formatTable('projects', `
         id SERIAL PRIMARY KEY,
         name varchar(255),
-        description text,
-        non_public boolean
+        description text
+    `);
+}
+
+const usersProjectsTable = () => {
+    return formatTable('users_projects', `
+        id SERIAL PRIMARY KEY,
+        user_id int references users (id),
+        project_id int references projects (id)
     `);
 }
 
@@ -37,6 +44,6 @@ const tasksTable = () => {
 /* Add function to array to include it in migration */
 module.exports = { 
     tables: [
-        usersTable(), projectsTable(), tasksTable()
+        usersTable(), projectsTable(), tasksTable(), usersProjectsTable()
     ]
 }

@@ -1,4 +1,5 @@
 const connection = require('../db/connection');
+const jwt = require('jsonwebtoken');
 
 const getProjects = async (req, res) => {
     try {
@@ -11,20 +12,95 @@ const getProjects = async (req, res) => {
 }
 
 const newProject = async (req, res) => {
-    try {
-        const project = await connection.pool.query(`
-            INSERT INTO projects (name, description, non_public) 
-            VALUES ($1, $2, $3)
-            RETURNING id name
-        `, [req.body.name, req.body.description, req.body.non_public]);
-        res.json({
-            id: project.rows[0].id,
-            name: project.rows[0].name
-        });
-    }
-    catch (error) {
-        res.status(status.error).json({ message: error.message });
-    }
+    // try {
+        const token = req.cookies['jwt-token'];
+        const decoded = jwt.verify(token, 'secretkey');
+        const user_id = decoded.id;
+        
+
+        
+        // try {
+        //     // await connection.pool.query('BEGIN');
+        //     await connection.pool.query(`
+        //     INSERT INTO projects (name, description)
+        //     VALUES ($1, $2)
+        //     `, ['asdf', 'HEY']);
+        //     console.log('here');
+            
+        // } catch (error) {
+        //     console.log(error)            
+        // }
+
+
+        const client = connection.pool;
+        try {
+            await client.query('BEGIN');
+            try {
+                
+                const queryText = 'INSERT INTO projects (name, description ) VALUES ($1, $2)';
+                const res = await client.query(queryText, ['hoi', 'asdf'])
+    
+                const queryText2 = 'INSERT INTO projects (name, description ) VALUES ($1, $2)';
+                const res2 = await client.query(queryText2, ['asdf', 'zxvc']);
+         
+                await client.query('COMMIT')
+            }
+            catch (error) {
+                
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        finally {
+            // client.release()
+        }
+        
+
+
+
+
+        // await connection.pool.query('BEGIN', async () => {
+
+        //     await connection.pool.query(`   
+        //         INSERT INTO projects (name, description)
+        //         VALUES ($1, $2)
+        //     `,['hoi', 'hallo']);
+        // });
+
+
+        // const project = await connection.pool.query(`
+
+
+        //         BEGIN
+          
+
+                
+        //     `, ['HOI', 'HALLO']);
+
+        // INSERT INTO projects (name, description)
+        // VALUES ($1, $2)
+        // RETURNING *
+        // console.log(project.rows[0]);
+
+        // res.json({
+        //     id: project.rows[0].id,
+        //     name: project.rows[0].name
+        // })
+
+
+        // res.json({
+        //     id: project.rows[0].id,
+        //     name: project.rows[0].name
+        // });
+
+        // console.log(project.rows[0])
+        // res.json({});
+        // res.json({ project.rows[0] });
+    // }
+    // catch (error) {
+    //     console.log(error);
+    //     res.status(status.error).json({ message: error.message });
+    // }
 }
 
 

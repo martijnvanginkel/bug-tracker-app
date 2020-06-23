@@ -11,17 +11,20 @@
         
     <main class="auth_main">
         <form action="/login" method="POST" class="auth_form" id="login_form">
-            <h1 class="auth_title">login</h1>
+            <div class="auth_title">
+                <h1 class="auth_title">login</h1>
+                <p>or <a href="/register">register</a></p>
+            </div>
             <div class="auth_flash">
                 <% if(message) { %>
                         <%- message %>
                 <% } %>
             </div>
             <label for="email">Email</label>
-            <input type="text" name="email" class="auth_field" required>
+            <input type="text" name="email" class="form_field" required>
             <label for="password">Password</label>
-            <input type="password" name="password" class="auth_field" required>
-            <button type="submit" class="auth_button">Login</button>
+            <input type="password" name="password" class="form_field" required>
+            <button type="submit" class="submit_button">Login</button>
         </form>
     </main>
 

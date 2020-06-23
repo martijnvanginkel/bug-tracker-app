@@ -45,13 +45,6 @@ const projectsSeed = () => {
                 values: [
                     'Lorem', 'Ipsum', 'Dolor'
                 ]
-            },
-            {
-                name: 'non_public',
-                type: 'boolean',
-                values: [
-                    true, true, false
-                ]
             }
         ]
     }
@@ -65,28 +58,28 @@ const tasksSeed = () => {
                 name: 'description',
                 type: 'varchar',
                 values: [
-                    'One', 'Two', 'three', 'four', 'five', 'six', 'seven', 'eight'
+                    'One', 'Two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'
                 ]
             },
             {
                 name: 'priority',
                 type: 'int',
                 values: [
-                    2, 0, 1, 0, 1, 0, 2, 0
+                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
                 ]
             },
             {
                 name: 'state',
                 type: 'varchar',
                 values: [
-                    'TODO', 'TODO', 'TODO', 'DOING', 'DONE', 'DONE', 'DONE', 'TODO'
+                    'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO'
                 ]
             },
             {
                 name: 'project_id',
                 type: 'int',
                 values: [
-                    1, 1, 1, 1, 1, 1, 1, 2
+                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
                 ]
             }
         ]

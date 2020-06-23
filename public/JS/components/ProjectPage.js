@@ -77,9 +77,22 @@ export const ProjectPage = {
                 
             </div>
             <div class="task_container">
-                <div class="task_list to_do_list"></div>
-                <div class="task_list doing_list"></div>
-                <div class="task_list done_list"></div>
+
+                <div class="task_list_container">
+                    <h2 class="task_list_title">TODO</h2>
+                    <div class="task_list to_do_list"></div>
+                </div>
+
+                <div class="task_list_container">
+                    <h2 class="task_list_title">DOING</h2>
+                    <div class="task_list doing_list"></div>
+                </div>
+
+                <div class="task_list_container">
+                    <h2 class="task_list_title">DONE</h2>
+                    <div class="task_list done_list"></div>
+                </div>
+
             </div>
         `;
     },
