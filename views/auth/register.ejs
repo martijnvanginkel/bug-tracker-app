@@ -11,7 +11,11 @@
     <main class="auth_main">
         <form action="/register" method="POST" class="auth_form">
             <h1 class="auth_title">Register</h1>
-            
+            <% if(message) { %>
+                <div class="auth_flash">
+                    <%- message %>
+                </div>
+            <% } %>
             <label for="name">Name</label>
             <input type="text" name="name" class="auth_field" required>
             <label for="email">Email</label>

@@ -7,7 +7,7 @@ const getLogin = async (req, res) => {
 }
 
 const getRegister = async (req, res) => {
-    res.render('auth/register');
+    res.render('auth/register', { message: req.flash('message') });
 }
 
 const findUserByEmail = async (email) => {
@@ -49,6 +49,7 @@ const postRegister = async (req, res) => {
         res.redirect('login');
     } 
     catch (error) {
+        req.flash('message', 'Failed to create user');
         res.redirect('register');
     }
 }
