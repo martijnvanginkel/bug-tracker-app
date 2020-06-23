@@ -8,16 +8,17 @@
     <title>Register</title>
 </head>
 <body>
-    <main>
-        <form action="/register" method="POST">
-            <h1>Register</h1>
+    <main class="auth_main">
+        <form action="/register" method="POST" class="auth_form">
+            <h1 class="auth_title">Register</h1>
+            
             <label for="name">Name</label>
-            <input type="text" name="name" required>
+            <input type="text" name="name" class="auth_field" required>
             <label for="email">Email</label>
-            <input type="text" name="email" required>
+            <input type="text" name="email" class="auth_field" required>
             <label for="password">Password</label>
-            <input type="password" name="password" required>
-            <button type="submit">Register</button>
+            <input type="password" name="password" class="auth_field" required>
+            <button type="submit" class="auth_button">Register</button>
         </form>
     </main>
 </body>

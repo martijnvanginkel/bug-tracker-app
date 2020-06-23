@@ -8,19 +8,22 @@
     <title>Login</title>
 </head>
 <body>
-    <main>
-        <% if(message) { %>
-            <%- message %>
-        <% } %>
-
-        <form action="/login" method="POST">
-            <h1>Login</h1>
+        
+    <main class="auth_main">
+        <form action="/login" method="POST" class="auth_form">
+            <h1 class="auth_title">login</h1>
+            <% if(message) { %>
+                <div class="auth_flash">
+                    <%- message %>
+                </div>
+            <% } %>
             <label for="email">Email</label>
-            <input type="text" name="email">
+            <input type="text" name="email" class="auth_field" required>
             <label for="password">Password</label>
-            <input type="password" name="password">
-            <button type="submit">Login</button>
+            <input type="password" name="password" class="auth_field" required>
+            <button type="submit" class="auth_button">Login</button>
         </form>
     </main>
+    
 </body>
 </html>
