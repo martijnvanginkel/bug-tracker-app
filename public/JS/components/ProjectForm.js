@@ -56,9 +56,8 @@ export const ProjectForm = {
 
             console.log(project)
             addProjectsToMenu([project]);
-        })
-
-
+            clearFields();
+        });
         
     }
 }

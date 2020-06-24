@@ -3,10 +3,9 @@ export const addProjectsToMenu = (projects) => {
     if (list === undefined || list === null) return;
     projects.forEach((project) => {
         const element = document.createElement('li');
-        element.classList.add('menu_item');
+        element.classList.add('project_link');
         element.innerHTML = `
-            <a href="/#/project/show/${project.id}" class="menu_link">${project.name}</a>
-            <button type="button" class="delete_project_btn">X</button>
+            <a href="/#/project/show/${project.id}">${project.name}</a>
         `;
         list.append(element);
     });
@@ -16,15 +15,15 @@ export const SideBar = {
     render : () => {
         return `
             <aside>
-                <h1>B-TRACK</h1>
+                <h1 class="menu_title">B-TRACK</h1>
                 <p class="menu_mark">General</p>
                 <a href="/#/" class="menu_link">Home</a>
                 <p class="menu_mark">Admin</p>
-                <a href="#">Manage Users</a>
-                <a href="#">Manage Projects</a>
+                <a href="#" class="menu_link">Manage Users</a>
+                <a href="#" class="menu_link">Manage Projects</a>
 
                 <p class="menu_mark">Projects</p>
-                <a href="/#/project/new">New Project</a>
+                <a href="/#/project/new" class="menu_link">New Project</a>
                 <ul id="project_list"></ul>
           
                 <form action="/logout" method="POST">
