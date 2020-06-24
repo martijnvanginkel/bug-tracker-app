@@ -59,7 +59,6 @@ const newProject = async (req, res) => {
 
 
 const showProject = async (req, res) => {
-    let has_creator = false;
     try {
         const response = await connection.pool.query(`
             SELECT
@@ -74,14 +73,8 @@ const showProject = async (req, res) => {
             GROUP BY projects.id, name, projects.description, creator_id
             `, [req.params.id]);
         const data = response.rows[0];
-        if (data.creator_id !== null) {
-            if (data.creator_id === req.user_id) {
-                has_creator = true;
-            }
-        }
         res.json({ 
             'data': data,
-            'has_creator': has_creator,
             'user_id': req.user_id
         });
     }
@@ -96,7 +89,6 @@ const leaveProject = async (req, res) => {
             DELETE FROM users_projects
             WHERE user_id = $1 AND project_id = $2
         `, [req.user_id, req.params.id]);
-        console.log('done leaving');
         res.json({ 'project_id': req.params.id });
     }
     catch (error) {
