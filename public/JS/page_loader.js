@@ -18,6 +18,9 @@ const clearPage = () => {
 }
 
 const loadNewPage = async (route, url) => {
+    console.log('load new page');
+    console.log(route);
+    console.log(url);
     if (route === null || route.value === null) return;
     clearPage();
     content.innerHTML = await route.value.render(url.id);
@@ -52,6 +55,11 @@ const hashChanged = () => {
     const route = returnNewRoute(url);
     if (route === null) return;
     loadNewPage(route, url);
+}
+
+export const returnToHomePage = () => {
+    location.hash = '/project/new';
+    hashChanged();
 }
 
 const loadSideBar = async () => {

@@ -1,5 +1,6 @@
 import { Task } from './Task.js';
-import { removeProjectFromMenu } from './SideBar.js'
+import { removeProjectFromMenu } from './SideBar.js';
+import { returnToHomePage } from './../page_loader.js';
 import { TaskForm } from './TaskForm.js';
 
 const getProjectByID = (id) => {
@@ -82,6 +83,8 @@ const createLeaveButton = (project) => {
         const response = await leaveProject(project.data.id);
         if (response !== null && response !== undefined) {
             removeProjectFromMenu(response.project_id);
+            console.log('here yes');
+            returnToHomePage();
         }
     });
     return leave_button;
