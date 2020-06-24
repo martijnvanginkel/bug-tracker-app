@@ -31,6 +31,9 @@ const findElementDropPosition = (container, y) => {
 export const listMap = new Map();
 
 export const addTaskToList = async (task, project_id) => {
+
+    if (!listMap.has(task.state)) return;
+    
     const element = document.createElement('div');
     element.className = 'task_box';
     element.setAttribute('draggable', true);
@@ -49,7 +52,6 @@ const initializeLists = () => {
     listMap.set('TODO', document.querySelector('.to_do_list'));
     listMap.set('DOING', document.querySelector('.doing_list'));
     listMap.set('DONE', document.querySelector('.done_list'));
-
     listMap.forEach((key, value) => { 
        key.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -63,6 +65,42 @@ const initializeLists = () => {
             }
         });
     });
+}
+
+const leaveProject = async (project_id) => {
+    const project = fetch(`http://localhost:5000/api/projects/leave/${project_id}?_method=DELETE`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(response => response.json()).then(data => {
+        return data;
+    }).catch((error) => console.error('Error:', error));
+    return project;
+}
+
+const deleteProjectFromMenu = () => {
+    
+}
+
+const createLeaveButton = (project) => {
+    const leave_button = document.createElement('button');
+    leave_button.type = 'button';
+    leave_button.innerHTML = 'Leave';
+    leave_button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const project = leaveProject(project.data.id);
+        if (project !== null && project !== undefined) {
+
+        }
+    });
+    return leave_button;
+}
+
+const insertLeaveOption = (project) => {
+    const leave_button = createLeaveButton(project);
+    const project_info = document.querySelector('.project_info');
+    project_info.append(leave_button);
 }
 
 export const ProjectPage = {
@@ -86,26 +124,27 @@ export const ProjectPage = {
                     <div class="task_list done_list"></div>
                 </div>
             </div>
-            `;
+        `;
     },
     addEvents : async (id) => {
         const project = await getProjectByID(id);
-        const project_data = project.data[0];
-        console.log(project_data)
-        if (project_data === undefined || project_data === null) return;
+        // console.log(project)
+        if (project.data === undefined || project.data === null) return;
         
         const title = document.querySelector('.project_title');
         const description = document.querySelector('.project_description');
-        title.innerHTML = project_data.name;
-        description.innerHTML = project_data.description;
+        title.innerHTML = project.data.name;
+        description.innerHTML = project.data.description;
+
+        insertLeaveOption(project);
 
 
         initializeLists();
 
 
-        console.log(`project_data: ${project_data.name}`);
+        // console.log(`project_data: ${project_data.name}`);
 
-        project_data.tasks.forEach((task) => addTaskToList(task, id));
+        project.data.tasks.forEach((task) => addTaskToList(task, id));
 
         /* Add task form */
         // const element = document.createElement('div');

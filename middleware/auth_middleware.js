@@ -4,7 +4,8 @@ const isAuthorized = (req, res, next) => {
     const token = req.cookies['jwt-token'];
     if (!token) return res.status(401).send('Access denied');
     try {
-        const verified = jwt.verify(token, 'secretkey');
+        const decoded = jwt.verify(token, 'secretkey');
+        req.user_id = decoded.id;;
         next();
     }
     catch (error) {

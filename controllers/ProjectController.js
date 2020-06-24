@@ -1,9 +1,14 @@
-const connection = require('../db/connection');
 const jwt = require('jsonwebtoken');
+const connection = require('../db/connection');
+const token_utils = require('./utils/token_utils');
 
 const getProjects = async (req, res) => {
     try {
-        const projects = await connection.pool.query(`SELECT * FROM projects`);
+        const projects = await connection.pool.query(`
+            SELECT * FROM projects
+            INNER JOIN users_projects on (projects.id = users_projects.project_id)
+            WHERE users_projects.user_id = $1
+        `, [req.user_id]);
         res.json(projects.rows);
     }
     catch (error) {
@@ -12,9 +17,6 @@ const getProjects = async (req, res) => {
 }
 
 const newProject = async (req, res) => {
-    const token = req.cookies['jwt-token'];
-    const decoded = jwt.verify(token, 'secretkey');
-    const user_id = decoded.id;
     let client = null;
     let project = null;
     try {
@@ -27,16 +29,16 @@ const newProject = async (req, res) => {
     try {
         await client.query('BEGIN');
         const response = await client.query(`
-            INSERT INTO projects (name, description)
-            VALUES ($1, $2)
+            INSERT INTO projects (name, description, creator_id)
+            VALUES ($1, $2, $3)
             RETURNING *
-        `, [req.body.name, req.body.description]);
+        `, [req.body.name, req.body.description, req.user_id]);
         project = response.rows[0];
         await client.query('COMMIT');
         await client.query(`
             INSERT INTO users_projects (user_id, project_id)
             VALUES ($1, $2)
-        `, [user_id, project.id]);
+        `, [req.user_id, project.id]);
     } catch (error) {
         console.log(`Error during transaction: ${error}`);
         try {
@@ -52,28 +54,59 @@ const newProject = async (req, res) => {
     res.json({ 
         id: project.id,
         name: project.name,
-     });
+    });
 }
 
 
 const showProject = async (req, res) => {
+    let has_creator = false;
     try {
-        const project = await connection.pool.query(`
+        const response = await connection.pool.query(`
             SELECT
+                projects.id,
                 name,
                 projects.description,
+                projects.creator_id,
                 json_agg(json_build_object('id', tasks.id, 'priority', tasks.priority, 'description', tasks.description, 'state', tasks.state) ORDER BY priority) AS tasks
             FROM projects
             LEFT JOIN tasks ON projects.id = tasks.project_id
             WHERE projects.id = $1
-            GROUP BY name, projects.description
+            GROUP BY projects.id, name, projects.description, creator_id
             `, [req.params.id]);
-            const data = project.rows;
-        res.json({ data });
+        const data = response.rows[0];
+        if (data.creator_id !== null) {
+            if (data.creator_id === req.user_id) {
+                has_creator = true;
+            }
+        }
+        res.json({ 
+            'data': data,
+            'has_creator': has_creator,
+            'user_id': req.user_id
+        });
     }
     catch (error) {
         res.status(status.error).json({ message: error.message });
     }
 }
 
-module.exports = { getProjects, newProject, showProject }
+const leaveProject = async (req, res) => {
+    console.log('in leave');
+    console.log(req.user_id);
+    console.log(req.params.id)
+    try {
+        const response = await connection.pool.query(`
+            DELETE FROM users_projects
+            WHERE user_id = $1 AND project_id = $2
+        `, [req.user_id, req.params.id]);
+        const data = response.rows[0];
+        console.log('done');
+        console.log(data);
+        res.json({ 'data': data })
+    }
+    catch (error) {
+        res.status(status.error).json({ message: error.message }); 
+    }
+}
+
+module.exports = { getProjects, newProject, showProject, leaveProject }

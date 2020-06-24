@@ -19,7 +19,8 @@ const projectsTable = () => {
     return formatTable('projects', `
         id SERIAL PRIMARY KEY,
         name varchar(255),
-        description text
+        description text,
+        creator_id int references users (id)
     `);
 }
 
