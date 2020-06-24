@@ -86,7 +86,7 @@ export const ProjectPage = {
                     <div class="task_list done_list"></div>
                 </div>
             </div>
-        `;
+            `;
     },
     addEvents : async (id) => {
         const project = await getProjectByID(id);
