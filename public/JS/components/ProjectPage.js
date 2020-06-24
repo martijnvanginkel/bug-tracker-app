@@ -83,7 +83,6 @@ const createLeaveButton = (project) => {
         const response = await leaveProject(project.data.id);
         if (response !== null && response !== undefined) {
             removeProjectFromMenu(response.project_id);
-            console.log('here yes');
             returnToHomePage();
         }
     });
@@ -102,6 +101,11 @@ export const ProjectPage = {
             <div class="project_info">
                 <h1 class="project_title"></h1>
                 <p class="project_description"></p>
+                <form action="/api/projects/invite" method="POST">
+                    <label for="email"></label>
+                    <input type="text" name="email" placeholder="invite by email"/>
+                    <button type="submit">Invite</button>
+                </form>
             </div>
             <div class="task_container">
                 <div class="task_list_container">

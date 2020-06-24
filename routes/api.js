@@ -7,6 +7,7 @@ const auth_middleware = require('./../middleware/auth_middleware');
 router.get('/projects', auth_middleware.isAuthorized, ProjectController.getProjects);
 router.get('/projects/:id', auth_middleware.isAuthorized, ProjectController.showProject);
 router.post('/projects/new', auth_middleware.isAuthorized, ProjectController.newProject);
+router.post('/projects/invite', auth_middleware.isAuthorized, ProjectController.inviteUser);
 router.delete('/projects/leave/:id', auth_middleware.isAuthorized, ProjectController.leaveProject);
 
 // router.put('/tasks/shuffle/:id', TaskController.shuffleTask);

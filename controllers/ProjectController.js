@@ -96,4 +96,13 @@ const leaveProject = async (req, res) => {
     }
 }
 
-module.exports = { getProjects, newProject, showProject, leaveProject }
+const inviteUser = async (req, res) => {
+    try {
+        
+    }
+    catch (error) {
+        res.status(status.error).json({ message: error.message }); 
+    }
+}
+
+module.exports = { getProjects, newProject, showProject, leaveProject, inviteUser }

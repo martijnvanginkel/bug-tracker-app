@@ -18,9 +18,6 @@ const clearPage = () => {
 }
 
 const loadNewPage = async (route, url) => {
-    console.log('load new page');
-    console.log(route);
-    console.log(url);
     if (route === null || route.value === null) return;
     clearPage();
     content.innerHTML = await route.value.render(url.id);
