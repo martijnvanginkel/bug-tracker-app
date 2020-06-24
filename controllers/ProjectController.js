@@ -91,18 +91,13 @@ const showProject = async (req, res) => {
 }
 
 const leaveProject = async (req, res) => {
-    console.log('in leave');
-    console.log(req.user_id);
-    console.log(req.params.id)
     try {
-        const response = await connection.pool.query(`
+        await connection.pool.query(`
             DELETE FROM users_projects
             WHERE user_id = $1 AND project_id = $2
         `, [req.user_id, req.params.id]);
-        const data = response.rows[0];
-        console.log('done');
-        console.log(data);
-        res.json({ 'data': data })
+        console.log('done leaving');
+        res.json({ 'project_id': req.params.id });
     }
     catch (error) {
         res.status(status.error).json({ message: error.message }); 

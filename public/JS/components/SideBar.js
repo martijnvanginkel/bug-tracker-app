@@ -1,3 +1,5 @@
+const projectListMap = new Map();
+
 export const addProjectsToMenu = (projects) => {
     const list = document.getElementById('project_list');
     if (list === undefined || list === null) return;
@@ -8,6 +10,15 @@ export const addProjectsToMenu = (projects) => {
             <a href="/#/project/show/${project.id}">${project.name}</a>
         `;
         list.append(element);
+        projectListMap.set(element, project.id);
+    });
+}
+
+export const removeProjectFromMenu = (project_id) => {
+    projectListMap.forEach((key, value) => {
+        if (key == project_id) {
+            value.remove();
+        }
     });
 }
 

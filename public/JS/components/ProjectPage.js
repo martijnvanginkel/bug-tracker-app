@@ -1,4 +1,5 @@
 import { Task } from './Task.js';
+import { removeProjectFromMenu } from './SideBar.js'
 import { TaskForm } from './TaskForm.js';
 
 const getProjectByID = (id) => {
@@ -31,19 +32,12 @@ const findElementDropPosition = (container, y) => {
 export const listMap = new Map();
 
 export const addTaskToList = async (task, project_id) => {
-
     if (!listMap.has(task.state)) return;
-    
     const element = document.createElement('div');
     element.className = 'task_box';
     element.setAttribute('draggable', true);
     element.innerHTML = await Task.render(task);
     await Task.addEvents(element, task, project_id);
-    // console.log(`task: ${task.priority}`);
-    
-    // console.log(task)
-    // console.log(listMap.get(task.state));
-
 
     listMap.get(task.state).append(element);
 }
@@ -68,7 +62,7 @@ const initializeLists = () => {
 }
 
 const leaveProject = async (project_id) => {
-    const project = fetch(`http://localhost:5000/api/projects/leave/${project_id}?_method=DELETE`, {
+    const project = await fetch(`http://localhost:5000/api/projects/leave/${project_id}?_method=DELETE`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -79,19 +73,15 @@ const leaveProject = async (project_id) => {
     return project;
 }
 
-const deleteProjectFromMenu = () => {
-    
-}
-
 const createLeaveButton = (project) => {
     const leave_button = document.createElement('button');
     leave_button.type = 'button';
     leave_button.innerHTML = 'Leave';
-    leave_button.addEventListener('click', (e) => {
+    leave_button.addEventListener('click', async (e) => {
         e.preventDefault();
-        const project = leaveProject(project.data.id);
-        if (project !== null && project !== undefined) {
-
+        const response = await leaveProject(project.data.id);
+        if (response !== null && response !== undefined) {
+            removeProjectFromMenu(response.project_id);
         }
     });
     return leave_button;
