@@ -22,6 +22,9 @@ body {
     flex-direction: column;
     height: 100%;
     max-height: 100%;
+    box-sizing: content-box;
+    box-sizing: border-box;
+    padding: 5px;
 }
 
 nav {
@@ -30,8 +33,6 @@ nav {
 }
 
 aside {
-    /* padding: 5px; */
-    /* background-color: red; */
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -42,6 +43,7 @@ h1 {
     margin: 0;
 }
 
+/* SIDEBAR */
 .menu_title {
     font-size: 1.5em;
 }
@@ -96,9 +98,73 @@ h1 {
     padding-left: 5px;
 }
 
-.project_info {
-    background-color: lightcoral;
+#logout_button {
+    color: darkgray;
+    background-color: transparent;
+    width: 100%;
+    text-align: left;
+    border: 0px;
+    font-size: 1em;
+    outline: none;
+    margin-top: 5px;
 }
+
+#logout_button:hover {
+    cursor: pointer;
+    color: black;
+}
+
+/* END SIDEBAR */
+
+/* HOMEPAGE */
+
+.home_page h1 {
+    padding: 10px;
+}
+
+.project_cards {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 960px;
+}
+
+.project_card {
+    background-color: lightskyblue;
+
+    flex: 1 0 45%;
+    margin: 10px;
+    border: 0px;
+    border-radius: 10px;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.card_background {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+}
+
+/* END HOMEPAGE */
+
+.project_header {
+    display: flex;
+    flex-direction: row;
+    background-color: green;
+    max-width: 960px;
+}
+
+.project_info {
+    flex-grow: 1;
+    /* background-color: lightcoral; */
+}
+
+.project_options {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
 
 .task_container {
     display: flex;
@@ -158,7 +224,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-.delete_project_btn {
+/* .delete_project_btn {
     background-color: transparent;
     border: 0;
     color: transparent;
@@ -166,23 +232,7 @@ h1 {
 
 .delete_project_btn:hover {
     color: black;
-}
-
-#logout_button {
-    color: darkgray;
-    background-color: transparent;
-    width: 100%;
-    text-align: left;
-    border: 0px;
-    font-size: 1em;
-    outline: none;
-    margin-top: 5px;
-}
-
-#logout_button:hover {
-    cursor: pointer;
-    color: black;
-}
+} */
 
 .dragging_task {
     opacity: 0.5;
@@ -191,6 +241,12 @@ h1 {
 .hide_element {
     display: none;
 }
+
+#task_form {
+    display: flex;
+    flex-direction: column;
+}
+
 
 
 
@@ -224,10 +280,10 @@ h1 {
 
 .form_field {
     border: 1px solid lightgray;
-    padding: 10px 5px;
+    padding: 8px 5px;
     font-size: 1em;
     border-radius: 5px;
-    margin: 10px 0;
+    /* margin: 10px 0; */
 }
 
 .submit_button {
@@ -243,6 +299,20 @@ h1 {
 .submit_button:hover {
     background-color: #00ccad;
     cursor: pointer;
+}
+
+.cancel_button {
+    background-color: lightcoral;
+    color: white;
+    padding: 10px 10px;
+    border: 0px;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 1em;
+}
+
+.cancel_button:hover {
+
 }
 
 .auth_flash {

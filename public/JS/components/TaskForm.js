@@ -21,8 +21,8 @@ export const TaskForm = {
     render : async () => {
         return `
             <form action="/api/tasks/new" method="POST" id="task_form">
-                <input class="input" type="text" placeholder="Name" name="description" required>
-                <button type="submit" id="submit_task_btn">Submit</button>
+                <input type="text" class="form_field" placeholder="Name" name="description" required>
+                <button type="submit" class="submit_button" id="submit_task_btn">Add</button>
             </form>
         `;
     },

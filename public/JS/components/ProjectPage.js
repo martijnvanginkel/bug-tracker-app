@@ -78,6 +78,7 @@ const leaveProject = async (project_id) => {
 const createLeaveButton = (project) => {
     const leave_button = document.createElement('button');
     leave_button.type = 'button';
+    leave_button.classList.add('cancel_button');
     leave_button.innerHTML = 'Leave';
     leave_button.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -92,8 +93,8 @@ const createLeaveButton = (project) => {
 
 const insertLeaveOption = (project) => {
     const leave_button = createLeaveButton(project);
-    const project_info = document.querySelector('.project_info');
-    project_info.append(leave_button);
+    const project_options = document.querySelector('.project_options');
+    project_options.append(leave_button);
 }
 
 const insertTaskForm = async (id) => {
@@ -105,9 +106,9 @@ const insertTaskForm = async (id) => {
 }
 
 const insertInviteForm = async (id) => {
-    const project_info = document.querySelector('.project_info');
+    const project_options = document.querySelector('.project_options');
     const element = document.createElement('div');
-    project_info.append(element);
+    project_options.append(element);
     element.outerHTML = await InviteForm.render(id);
     await InviteForm.addEvents(id);
 
@@ -116,9 +117,14 @@ const insertInviteForm = async (id) => {
 export const ProjectPage = {
     render : async () => {
         return `
-            <div class="project_info">
-                <h1 class="project_title"></h1>
-                <p class="project_description"></p>
+            <div class="project_header">
+                <div class="project_info">
+                    <h1 class="project_title"></h1>
+                    <p class="project_description"></p>
+                </div>
+                <div class="project_options">
+                 
+                </div>
             </div>
             <div class="task_container">
                 <div class="task_list_container" id="to_do_container">
@@ -151,17 +157,17 @@ export const ProjectPage = {
 
         description.innerHTML = project.data.description;
 
-        insertLeaveOption(project);
-
-
+        
+        
         initializeLists();
-
-
+        
+        
         // console.log(`project_data: ${project_data.name}`);
-
+        
         project.data.tasks.forEach((task) => addTaskToList(task, id));
-
+        
         insertTaskForm(id);
         insertInviteForm(id);
+        insertLeaveOption(project);
     }
 }

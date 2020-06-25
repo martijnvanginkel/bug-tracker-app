@@ -24,8 +24,8 @@ export const InviteForm = {
             <form action="/api/projects/invite/${id}" method="POST" id="invite_form">
                 <span id="invite_message"></span>
                 <label for="email"></label>
-                <input type="text" name="email" placeholder="invite by email"/>
-                <button type="submit">Invite</button>
+                <input type="text" name="email" class="form_field" placeholder="Email"/>
+                <button type="submit" class="submit_button">Invite</button>
             </form>
         `;
     },

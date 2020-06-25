@@ -1,12 +1,12 @@
 import { SideBar } from './components/SideBar.js';
+import { HomePage } from './components/HomePage.js';
 import { ProjectForm } from './components/ProjectForm.js';
 import { ProjectPage } from './components/ProjectPage.js';
 
 const routes = [
-    { key: '/', value: null },
+    { key: '/', value: HomePage },
     { key: '/project/new', value: ProjectForm },
-    { key: '/project/show/:id', value: ProjectPage },
-    { key: '/extra', value: null }
+    { key: '/project/show/:id', value: ProjectPage }
 ]
 
 const content = document.getElementById('main_content');
