@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const connection = require('../db/connection');
 const token_utils = require('./utils/token_utils');
+const { connect } = require('mongoose');
 
 const getProjects = async (req, res) => {
     try {
@@ -17,45 +18,46 @@ const getProjects = async (req, res) => {
 }
 
 const newProject = async (req, res) => {
-    let client = null;
-    let project = null;
+    // let client = null;
+    // let project = null;
+    // try {
+    //     client = await connection.pool.connect();
+    // }
+    // catch (error) {
+    //     console.log(`Client pool error: ${error}`);
+    //     return error;
+    // }
     try {
-        client = await connection.pool.connect();
-    }
-    catch (error) {
-        console.log(`Client pool error: ${error}`);
-        return error;
-    }
-    try {
-        await client.query('BEGIN');
-        const response = await client.query(`
+        await connection.pool.query('BEGIN');
+        const response = await connection.pool.query(`
             INSERT INTO projects (name, description, creator_id)
             VALUES ($1, $2, $3)
             RETURNING *
         `, [req.body.name, req.body.description, req.user_id]);
-        project = response.rows[0];
-        await client.query('COMMIT');
-        await client.query(`
+        const project = response.rows[0];
+        await connection.pool.query('COMMIT');
+        await connection.pool.query(`
             INSERT INTO users_projects (user_id, project_id)
             VALUES ($1, $2)
         `, [req.user_id, project.id]);
-        await client.query('COMMIT');
+        await connection.pool.query('COMMIT');
+        res.json({
+            id: project.id,
+            name: project.name
+        });
     } catch (error) {
-        console.log(`Error during transaction: ${error}`);
-        try {
-            await client.query('ROLLBACK');
-        } catch (error) {
-            console.log(`Error during rollback ${error}`);
-        }
-        return error;
+        // console.log(`Error during transaction: ${error}`);
+        // try {
+        await connection.pool.query('ROLLBACK');
+        res.status(status.error).json({ message: error.message });
     }
-    finally {
-        client.release();
-    }
-    res.json({ 
-        id: project.id,
-        name: project.name,
-    });
+    // finally {
+    //     client.release();
+    // }
+    // res.json({ 
+    //     id: project.id,
+    //     name: project.name,
+    // });
 }
 
 

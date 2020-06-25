@@ -155,14 +155,7 @@ export const ProjectPage = {
         // console.log(`project_data: ${project_data.name}`);
 
         project.data.tasks.forEach((task) => addTaskToList(task, id));
-
+        
         insertTaskForm(id);
-
-        /* Add task form */
-        // const to_do_container = document.getElementById('to_do_container');
-        // const element = document.createElement('div');
-        // to_do_container.append(element);
-        // element.outerHTML = await TaskForm.render();
-        // await TaskForm.addEvents(id);
     }
 }
