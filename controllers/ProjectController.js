@@ -92,7 +92,7 @@ const inviteUser = async (req, res) => {
                 message: 'No user found'
             });
         }
-        const new_user = await connection.pool.query(`
+        await connection.pool.query(`
             INSERT INTO users_projects (user_id, project_id)
             SELECT $1, $2
             WHERE NOT EXISTS 
