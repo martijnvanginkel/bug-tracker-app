@@ -82,6 +82,7 @@ const createLeaveButton = (project) => {
     leave_button.innerHTML = 'Leave';
     leave_button.addEventListener('click', async (e) => {
         e.preventDefault();
+        if (!confirm('Sure you want to leave?')) return;
         const response = await leaveProject(project.data.id);
         if (response !== null && response !== undefined) {
             removeProjectFromMenu(response.project_id);

@@ -24,7 +24,10 @@ body {
     max-height: 100%;
     box-sizing: content-box;
     box-sizing: border-box;
-    padding: 5px;
+    padding: 10px;
+    margin-left: 10px;
+    max-width: 640px;
+    
 }
 
 nav {
@@ -130,13 +133,21 @@ h1 {
 
 .project_card {
     background-color: lightskyblue;
-
+    color: white;
+    text-decoration: none;
     flex: 1 0 45%;
     margin: 10px;
     border: 0px;
     border-radius: 10px;
     text-align: center;
     padding: 5px 0;
+    opacity: 80%;
+    transition: 0.1s ease;
+}
+
+.project_card:hover {
+    opacity: 100%;
+    transition: 0.1s ease;
 }
 
 .card_background {
@@ -150,8 +161,10 @@ h1 {
 .project_header {
     display: flex;
     flex-direction: row;
-    background-color: green;
-    max-width: 960px;
+    /* background-color: green; */
+    /* max-width: 640px; */
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
 }
 
 .project_info {
@@ -184,6 +197,7 @@ h1 {
     flex-direction: column;
     margin: 0;
     padding: 0;
+    flex-basis: 100%;
 }
 
 .task_list {
@@ -207,6 +221,9 @@ h1 {
     background-color: white;
     transition: 0.1s ease;
     border-radius: 4px;
+    width: 100%;
+    flex: 1;
+    /* margin: 5px; */
 }
 
 .task_box:hover {
@@ -245,6 +262,7 @@ h1 {
 #task_form {
     display: flex;
     flex-direction: column;
+    margin-right: 15px;
 }
 
 
