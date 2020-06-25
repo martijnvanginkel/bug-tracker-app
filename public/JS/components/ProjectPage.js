@@ -95,6 +95,14 @@ const insertLeaveOption = (project) => {
     project_info.append(leave_button);
 }
 
+const insertTaskForm = async (id) => {
+    const to_do_container = document.getElementById('to_do_container');
+    const element = document.createElement('div');
+    to_do_container.append(element);
+    element.outerHTML = await TaskForm.render();
+    await TaskForm.addEvents(id);
+}
+
 export const ProjectPage = {
     render : async () => {
         return `
@@ -108,7 +116,7 @@ export const ProjectPage = {
                 </form>
             </div>
             <div class="task_container">
-                <div class="task_list_container">
+                <div class="task_list_container" id="to_do_container">
                     <h2 class="task_list_title">TODO</h2>
                     <div class="task_list to_do_list"></div>
                 </div>
@@ -131,6 +139,11 @@ export const ProjectPage = {
         const title = document.querySelector('.project_title');
         const description = document.querySelector('.project_description');
         title.innerHTML = project.data.name;
+
+        // Make title interactive
+
+
+
         description.innerHTML = project.data.description;
 
         insertLeaveOption(project);
@@ -143,9 +156,12 @@ export const ProjectPage = {
 
         project.data.tasks.forEach((task) => addTaskToList(task, id));
 
+        insertTaskForm(id);
+
         /* Add task form */
+        // const to_do_container = document.getElementById('to_do_container');
         // const element = document.createElement('div');
-        // to_do_list.append(element);
+        // to_do_container.append(element);
         // element.outerHTML = await TaskForm.render();
         // await TaskForm.addEvents(id);
     }

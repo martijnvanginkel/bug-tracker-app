@@ -108,23 +108,27 @@ h1 {
     overflow-y: scroll;
 }
 
+.to_do_list {
+    flex-grow: 1;
+}
+
+
 .task_list_container {
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
-    max-height: 100%;
-    overflow-y: scroll;
 }
 
 .task_list {
     background-color: lightgray;
     min-width: 150px;
-    max-height: auto;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;
     flex-grow: 1;
+    max-height: 100%;
+    overflow-y: scroll;
 }
 
 .task_list_title {

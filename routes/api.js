@@ -11,6 +11,7 @@ router.post('/projects/invite', auth_middleware.isAuthorized, ProjectController.
 router.delete('/projects/leave/:id', auth_middleware.isAuthorized, ProjectController.leaveProject);
 
 // router.put('/tasks/shuffle/:id', TaskController.shuffleTask);
+router.post('/tasks/new', TaskController.newTask);
 router.put('/tasks/move/:id', TaskController.moveTask);
 router.put('/tasks/edit/:id', TaskController.editTask);
 router.delete('/tasks/remove/:id', TaskController.removeTask);

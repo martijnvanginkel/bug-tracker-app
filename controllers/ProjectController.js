@@ -39,6 +39,7 @@ const newProject = async (req, res) => {
             INSERT INTO users_projects (user_id, project_id)
             VALUES ($1, $2)
         `, [req.user_id, project.id]);
+        await client.query('COMMIT');
     } catch (error) {
         console.log(`Error during transaction: ${error}`);
         try {
@@ -97,12 +98,51 @@ const leaveProject = async (req, res) => {
 }
 
 const inviteUser = async (req, res) => {
+
     try {
-        
+        client = await connection.pool.connect();
     }
     catch (error) {
         res.status(status.error).json({ message: error.message }); 
     }
+    try {
+        console.log(req.body.email)
+        // await client.query('BEGIN');
+        const response = await client.query(`
+            SELECT id, email FROM users
+            WHERE email = $1
+        `, [req.body.email]);
+
+        const user = response.rows[0];
+        if (user === undefined || user === null) {
+            return res.json({ message: 'No user found' });
+        }
+
+        await client.query(`
+            
+        `);
+
+        console.log(response.rows[0]);
+
+        // project = response.rows[0];
+        // await client.query('COMMIT');
+        console.log('hello response invite');
+        console.log(response);
+
+    } catch (error) {
+        try {
+            await client.query('ROLLBACK');
+        } catch (error) {
+            console.log(`Error during rollback ${error}`);
+        }
+        res.status(status.error).json({ message: error.message }); 
+    }
+    // finally {
+    //     client.release();
+    // }
+    res.json({ 
+
+    });
 }
 
 module.exports = { getProjects, newProject, showProject, leaveProject, inviteUser }
