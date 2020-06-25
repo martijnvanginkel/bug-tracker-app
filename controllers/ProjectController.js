@@ -18,15 +18,6 @@ const getProjects = async (req, res) => {
 }
 
 const newProject = async (req, res) => {
-    // let client = null;
-    // let project = null;
-    // try {
-    //     client = await connection.pool.connect();
-    // }
-    // catch (error) {
-    //     console.log(`Client pool error: ${error}`);
-    //     return error;
-    // }
     try {
         await connection.pool.query('BEGIN');
         const response = await connection.pool.query(`
@@ -46,18 +37,9 @@ const newProject = async (req, res) => {
             name: project.name
         });
     } catch (error) {
-        // console.log(`Error during transaction: ${error}`);
-        // try {
         await connection.pool.query('ROLLBACK');
         res.status(status.error).json({ message: error.message });
     }
-    // finally {
-    //     client.release();
-    // }
-    // res.json({ 
-    //     id: project.id,
-    //     name: project.name,
-    // });
 }
 
 
@@ -100,51 +82,36 @@ const leaveProject = async (req, res) => {
 }
 
 const inviteUser = async (req, res) => {
-
     try {
-        client = await connection.pool.connect();
-    }
-    catch (error) {
-        res.status(status.error).json({ message: error.message }); 
-    }
-    try {
-        console.log(req.body.email)
-        // await client.query('BEGIN');
-        const response = await client.query(`
+        await connection.pool.query('BEGIN');
+        const response = await connection.pool.query(`
             SELECT id, email FROM users
             WHERE email = $1
         `, [req.body.email]);
-
         const user = response.rows[0];
         if (user === undefined || user === null) {
-            return res.json({ message: 'No user found' });
+            return res.json({ 
+                user: user,
+                message: 'No user found'
+            });
         }
-
-        await client.query(`
-            
-        `);
-
-        console.log(response.rows[0]);
-
-        // project = response.rows[0];
-        // await client.query('COMMIT');
-        console.log('hello response invite');
-        console.log(response);
+        const new_user = await connection.pool.query(`
+            INSERT INTO users_projects (user_id, project_id)
+            SELECT $1, $2
+            WHERE NOT EXISTS 
+                (SELECT user_id, project_id FROM users_projects WHERE user_id = $1 AND project_id = $2);
+        `, [user.id, req.params.id])
+        await connection.pool.query('COMMIT');
+        res.json({ 
+            user: user,
+            message: 'User is invited'
+        });
 
     } catch (error) {
-        try {
-            await client.query('ROLLBACK');
-        } catch (error) {
-            console.log(`Error during rollback ${error}`);
-        }
+        await client.query('ROLLBACK');
         res.status(status.error).json({ message: error.message }); 
     }
-    // finally {
-    //     client.release();
-    // }
-    res.json({ 
 
-    });
 }
 
 module.exports = { getProjects, newProject, showProject, leaveProject, inviteUser }

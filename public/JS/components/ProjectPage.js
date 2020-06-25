@@ -2,6 +2,7 @@ import { Task } from './Task.js';
 import { removeProjectFromMenu } from './SideBar.js';
 import { returnToHomePage } from './../page_loader.js';
 import { TaskForm } from './TaskForm.js';
+import { InviteForm } from './InviteForm.js';
 
 const getProjectByID = (id) => {
     if (id === undefined) return;
@@ -103,17 +104,21 @@ const insertTaskForm = async (id) => {
     await TaskForm.addEvents(id);
 }
 
+const insertInviteForm = async (id) => {
+    const project_info = document.querySelector('.project_info');
+    const element = document.createElement('div');
+    project_info.append(element);
+    element.outerHTML = await InviteForm.render(id);
+    await InviteForm.addEvents(id);
+
+}
+
 export const ProjectPage = {
     render : async () => {
         return `
             <div class="project_info">
                 <h1 class="project_title"></h1>
                 <p class="project_description"></p>
-                <form action="/api/projects/invite" method="POST">
-                    <label for="email"></label>
-                    <input type="text" name="email" placeholder="invite by email"/>
-                    <button type="submit">Invite</button>
-                </form>
             </div>
             <div class="task_container">
                 <div class="task_list_container" id="to_do_container">
@@ -155,7 +160,8 @@ export const ProjectPage = {
         // console.log(`project_data: ${project_data.name}`);
 
         project.data.tasks.forEach((task) => addTaskToList(task, id));
-        
+
         insertTaskForm(id);
+        insertInviteForm(id);
     }
 }
