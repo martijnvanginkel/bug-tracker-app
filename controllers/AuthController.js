@@ -41,7 +41,7 @@ const postLogin = async (req, res) => {
 const postRegister = async (req, res) => {
     try {
         const hashed_password = await bcrypt.hash(req.body.password, 10);
-        const user = await connection.pool.query(`
+        await connection.pool.query(`
             INSERT INTO users (name, email, password)
             VALUES ($1, $2, $3)
             RETURNING id, name, email

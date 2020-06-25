@@ -1,7 +1,4 @@
-const jwt = require('jsonwebtoken');
 const connection = require('../db/connection');
-const token_utils = require('./utils/token_utils');
-const { connect } = require('mongoose');
 
 const getProjects = async (req, res) => {
     try {

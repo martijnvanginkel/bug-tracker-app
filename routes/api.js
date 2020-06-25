@@ -10,7 +10,6 @@ router.post('/projects/new', auth_middleware.isAuthorized, ProjectController.new
 router.post('/projects/invite/:id', auth_middleware.isAuthorized, ProjectController.inviteUser);
 router.delete('/projects/leave/:id', auth_middleware.isAuthorized, ProjectController.leaveProject);
 
-// router.put('/tasks/shuffle/:id', TaskController.shuffleTask);
 router.post('/tasks/new', TaskController.newTask);
 router.put('/tasks/move/:id', TaskController.moveTask);
 router.put('/tasks/edit/:id', TaskController.editTask);

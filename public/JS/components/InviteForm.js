@@ -14,17 +14,7 @@ const sendProjectInvite = (id, email) => {
             'email': email
         })
     }).then(response => response.json()).then(data => {
-
-        // if (data.user !== undefined) {
-        //     showInviteMessage(data.message);
-        // }
-        // else {
-        // }
         showInviteMessage(data.message);
-        // email.value = '';
-        // console.log(data);
-        // addTaskToList(data.task, data.task.project_id);
-        // description.value = '';
     }).catch((error) => console.error('Error:', error));
 }
 
@@ -44,13 +34,7 @@ export const InviteForm = {
         console.log(invite_form);
         invite_form.addEventListener('submit', (e) => {
             e.preventDefault();
-            console.log(e.target.email.value)
             sendProjectInvite(id, e.target.email.value);
         });
-        // const form = document.getElementById('task_form');
-        // form.addEventListener('submit', (e) => {
-        //     e.preventDefault();
-        //     createNewTask(project_id, e.target.description);
-        // });
     }
 }
