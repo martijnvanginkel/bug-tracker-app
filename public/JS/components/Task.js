@@ -53,9 +53,7 @@ const changeInputToText = (task, new_description) => {
 }
 
 const changeTextToInput = (edit_btn) => {
-    console.log(edit_btn);
-    const task = edit_btn.parentElement.parentElement.parentElement;
-    console.log(task);
+    const task = edit_btn.parentElement;
     const description = task.querySelector('.task_description');
     const save_btn = task.querySelector('.save_btn');
     const input_field = task.querySelector('.task_input');
@@ -65,25 +63,22 @@ const changeTextToInput = (edit_btn) => {
     description.classList.add('hide_element');
     save_btn.classList.remove('hide_element');
     input_field.classList.remove('hide_element');
+    input_field.select();
 }
 
 export const Task = {
     render : async (task) => {
-        return `
+        return ` 
             <p class="task_description">${task.description}</p>
-
-            <div class="task_buttons">
-                <form action="/api/tasks/edit/${task.id}" method="PUT" class="edit_task">
-                    <input type="text" class="task_input hide_element"/>
-                    <button type="button" class="edit_btn">Edit</button>
-                    <button type="submit" class="save_btn hide_element">Save</button>
-                </form> 
-                <form action="/api/tasks/remove/${task.id}?_method=DELETE" method="POST" class="remove_task">
+            <textarea class="task_input hide_element"></textarea>
+            <button type="button" class="edit_btn">Edit</button>
+            <button type="submit" class="save_btn hide_element">Save</button>
+            `;
+            {/* <div class="task_buttons">
+                </div> */}
+                {/* <form action="/api/tasks/remove/${task.id}?_method=DELETE" method="POST" class="remove_task">
                     <button type="submit">X</button>
-                </form> 
-            </div>
-
-        `;
+                </form> */}
     },
     addEvents : (element, task_data, project_id) => {
         element.addEventListener('dragstart', () => element.classList.add('dragging_task'));
@@ -106,25 +101,54 @@ export const Task = {
             }
         });
 
+        
         const edit_button = element.querySelector('.edit_btn');
         edit_button.addEventListener('click', (e) => {
             changeTextToInput(e.target);
+            edit_button.id = 'hide';
         });
 
-        const edit_task = element.querySelector('.edit_task');
-        edit_task.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const description = e.target.querySelector('.task_input').value;
-            const response = await editTask(task_data.id, description);
-            if (response === null || response === undefined) return;
-            changeInputToText(e.target.parentElement, response.new_description);
-        })
+        // const task_description = element.querySelector('.task_description');
+
+        // task_description.addEventListener('mouseout', (e) => {
+        //     edit_button.classList.add('hide_element');
+        //     console.log('adfasdf');
+        // });
+
+        // task_description.addEventListener('mouseover', (e) => {
+        //     edit_button.classList.remove('hide_element');
+        //     console.log('adfasdf');
+        // });
         
-        const remove_task = element.querySelector('.remove_task');
-        remove_task.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await removeTask(task_data);
-            e.target.parentElement.remove();
+        const task_input = element.querySelector('.task_input');
+        task_input.addEventListener('keyup', async (e) => {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                if (task_input.value.length <= 1) {
+                    await removeTask(task_data);
+                    e.target.parentElement.remove();
+
+                    return ;
+                }
+                edit_button.id = '';
+                await editTask(task_data.id, task_input.value);
+                changeInputToText(element, e.target.value);
+            }
         });
+
+        const save_button = element.querySelector('.save_btn');
+        save_button.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const task_input = e.target.parentElement.querySelector('.task_input');
+            await editTask(task_data.id, task_input.value);
+            changeInputToText(element, task_input.value);
+        });
+        
+        // const remove_task = element.querySelector('.remove_task');
+        // remove_task.addEventListener('submit', async (e) => {
+        //     e.preventDefault();
+        //     await removeTask(task_data);
+        //     e.target.parentElement.parentElement.remove();
+        // });
     }
 }
