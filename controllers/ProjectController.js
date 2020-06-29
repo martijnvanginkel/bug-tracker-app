@@ -3,14 +3,16 @@ const connection = require('../db/connection');
 const getProjects = async (req, res) => {
     try {
         const projects = await connection.pool.query(`
-            SELECT * FROM projects
+            SELECT projects.id AS project_id, name, description FROM projects
             INNER JOIN users_projects on (projects.id = users_projects.project_id)
             WHERE users_projects.user_id = $1
+            GROUP BY projects.id, name, description
         `, [req.user_id]);
         console.log(projects);
         res.json(projects.rows);
     }
     catch (error) {
+        console.log(error);
         res.status(200).json({ message: error.message });
     }
 }
@@ -31,7 +33,7 @@ const newProject = async (req, res) => {
         `, [req.user_id, project.id]);
         await connection.pool.query('COMMIT');
         res.json({
-            id: project.id,
+            project_id: project.id,
             name: project.name
         });
     } catch (error) {

@@ -53,7 +53,9 @@ const changeInputToText = (task, new_description) => {
 }
 
 const changeTextToInput = (edit_btn) => {
-    const task = edit_btn.parentElement;
+    console.log(edit_btn);
+    const task = edit_btn.parentElement.parentElement.parentElement;
+    console.log(task);
     const description = task.querySelector('.task_description');
     const save_btn = task.querySelector('.save_btn');
     const input_field = task.querySelector('.task_input');
@@ -68,15 +70,19 @@ const changeTextToInput = (edit_btn) => {
 export const Task = {
     render : async (task) => {
         return `
-            <form action="/api/tasks/edit/${task.id}" method="PUT" class="edit_task_form">
-                <p class="task_description">${task.description}</p>
-                <input type="text" class="task_input hide_element"/>
-                <button type="submit" class="save_btn hide_element">Save</button>
-                <button type="button" class="edit_btn">Edit</button>
-            </form> 
-            <form action="/api/tasks/remove/${task.id}?_method=DELETE" method="POST" class="remove_task">
-                <button type="submit">X</button>
-            </form> 
+            <p class="task_description">${task.description}</p>
+
+            <div class="task_buttons">
+                <form action="/api/tasks/edit/${task.id}" method="PUT" class="edit_task">
+                    <input type="text" class="task_input hide_element"/>
+                    <button type="button" class="edit_btn">Edit</button>
+                    <button type="submit" class="save_btn hide_element">Save</button>
+                </form> 
+                <form action="/api/tasks/remove/${task.id}?_method=DELETE" method="POST" class="remove_task">
+                    <button type="submit">X</button>
+                </form> 
+            </div>
+
         `;
     },
     addEvents : (element, task_data, project_id) => {
@@ -105,8 +111,8 @@ export const Task = {
             changeTextToInput(e.target);
         });
 
-        const edit_task_form = element.querySelector('.edit_task_form');
-        edit_task_form.addEventListener('submit', async (e) => {
+        const edit_task = element.querySelector('.edit_task');
+        edit_task.addEventListener('submit', async (e) => {
             e.preventDefault();
             const description = e.target.querySelector('.task_input').value;
             const response = await editTask(task_data.id, description);

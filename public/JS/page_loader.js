@@ -55,7 +55,7 @@ const hashChanged = () => {
 }
 
 export const returnToHomePage = () => {
-    location.hash = '/project/new';
+    location.hash = '/';
     hashChanged();
 }
 

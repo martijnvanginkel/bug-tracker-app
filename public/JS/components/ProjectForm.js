@@ -50,6 +50,7 @@ export const ProjectForm = {
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('create new project');
             const name = e.target.name.value;
             const description = e.target.description.value;
             const project = await createNewProject(name, description);

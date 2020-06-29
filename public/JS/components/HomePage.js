@@ -7,7 +7,7 @@ const addCardsToPage = (projects) => {
         parent.append(card_element)
         card_element.outerHTML = ProjectCard.render(project);
     })
-    projects.fo
+    // projects.fo
 }
 
 export const HomePage = {

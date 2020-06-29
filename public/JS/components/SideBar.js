@@ -6,11 +6,12 @@ export const addProjectsToMenu = (projects) => {
     projects.forEach((project) => {
         const element = document.createElement('li');
         element.classList.add('project_link');
+        // console.log(project);
         element.innerHTML = `
             <a href="/#/project/show/${project.project_id}">${project.name}</a>
         `;
         list.append(element);
-        projectListMap.set(element, project.id);
+        projectListMap.set(element, project.project_id);
     });
 }
 
@@ -45,6 +46,7 @@ export const SideBar = {
                 'Content-Type': 'application/json',
             }
         }).then(response => response.json()).then(data => {
+            console.log(data);
             addProjectsToMenu(data);
         }).catch((error) => console.error('Error:', error));
     },

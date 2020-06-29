@@ -108,7 +108,7 @@ export const ProjectPage = {
     addEvents : async (id) => {
         const project = await getProjectByID(id);
         if (project.data === undefined || project.data === null) return;
-        
+        // console.log(project);
         initializeLists();
         project.data.tasks.forEach((task) => addTaskToList(task, id));
         

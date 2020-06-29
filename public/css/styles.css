@@ -27,7 +27,7 @@ body {
     padding: 10px;
     margin-left: 10px;
     max-width: 640px;
-    
+    background-color: lightyellow;
 }
 
 nav {
@@ -172,6 +172,10 @@ h1 {
     /* background-color: lightcoral; */
 }
 
+.project_info h1 {
+    font-size: 1.5em;
+}
+
 .project_options {
     display: flex;
     flex-direction: column;
@@ -184,7 +188,9 @@ h1 {
     flex-direction: row;
     max-height: 100%;
     height: 100%;
-    overflow-y: scroll;
+    overflow: auto;
+    /* overflow-y: scroll; */
+    /* justify-content: space-evenly; */
 }
 
 .to_do_list {
@@ -196,8 +202,16 @@ h1 {
     display: flex;
     flex-direction: column;
     margin: 0;
-    padding: 0;
+    padding: 10px;
     flex-basis: 100%;
+    background-color: lightgrey;
+    margin-top: 10px;
+    margin-right: 15px;
+    border-radius: 5px;
+    /* overflow: auto; */
+
+    /* overflow-y: scroll; */
+    /* overflow-y: scroll; */
 }
 
 .task_list {
@@ -208,26 +222,58 @@ h1 {
     box-sizing: border-box;
     flex-grow: 1;
     max-height: 100%;
-    overflow-y: scroll;
+    overflow: auto;
 }
 
 .task_list_title {
+    font-size: 1em;
     margin: 0;
     padding: 0;
 }
 
 .task_box {
+    position: relative;
     display: flex;
     background-color: white;
     transition: 0.1s ease;
     border-radius: 4px;
     width: 100%;
     flex: 1;
+    margin-bottom: 10px;
+    /* margin: 5px 0; */
     /* margin: 5px; */
 }
 
 .task_box:hover {
     cursor: pointer;
+}
+
+.task_buttons {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.task_description {
+    background-color: royalblue;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.edit_task {
+    background-color: saddlebrown;
+    /* position: absolute; 
+    right: 0; */
+}
+
+.remove_task {
+    background-color: silver;
+    /* position: absolute;
+    right: 0; */
 }
 
 #project_form {
@@ -236,7 +282,7 @@ h1 {
     max-width: 640px;
 }
 
-#create_project_name {
+#create_project {
     font-size: 1.5em;
     margin-bottom: 10px;
 }
@@ -262,13 +308,15 @@ h1 {
 #task_form {
     display: flex;
     flex-direction: column;
-    margin-right: 15px;
+    /* margin-right: 15px; */
+    /* background-color: red; */
 }
 
 
 #invite_message {
-    font-size: 1em;
+    font-size: 0.9em;
     height: 1em;
+    margin-bottom: 5px;
 }
 
 /* Login */
@@ -301,8 +349,8 @@ h1 {
 
 .form_field {
     border: 1px solid lightgray;
-    padding: 8px 5px;
-    font-size: 1em;
+    padding: 5px;
+    font-size: 0.8em;
     border-radius: 5px;
     /* margin: 10px 0; */
 }
@@ -310,11 +358,11 @@ h1 {
 .submit_button {
     background-color: #00d1b2;
     color: white;
-    padding: 10px 10px;
+    padding: 5px;
     border: 0px;
     border-radius: 5px;
     margin-top: 5px;
-    font-size: 1em;
+    font-size: 0.8em;
 }
 
 .submit_button:hover {
@@ -325,11 +373,11 @@ h1 {
 .cancel_button {
     background-color: lightcoral;
     color: white;
-    padding: 10px 10px;
+    padding: 5px;
     border: 0px;
     border-radius: 5px;
     margin-top: 5px;
-    font-size: 1em;
+    font-size: 0.8em;
 }
 
 .cancel_button:hover {
@@ -345,8 +393,8 @@ h1 {
     color: #0059b3;
     border: 0px;
     border-radius: 5px;
-    font-size: 1em;
-    padding: 10px 10px;
+    font-size: 0.8em;
+    padding: 5px;
 }
 
 .clear_button:hover {
