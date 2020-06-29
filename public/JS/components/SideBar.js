@@ -2,14 +2,12 @@ const projectListMap = new Map();
 
 export const addProjectsToMenu = (projects) => {
     const list = document.getElementById('project_list');
-    console.log(list);
     if (list === undefined || list === null) return;
-    console.log('loop')
     projects.forEach((project) => {
         const element = document.createElement('li');
         element.classList.add('project_link');
         element.innerHTML = `
-            <a href="/#/project/show/${project.id}">${project.name}</a>
+            <a href="/#/project/show/${project.project_id}">${project.name}</a>
         `;
         list.append(element);
         projectListMap.set(element, project.id);
@@ -47,7 +45,6 @@ export const SideBar = {
                 'Content-Type': 'application/json',
             }
         }).then(response => response.json()).then(data => {
-            console.log(data);
             addProjectsToMenu(data);
         }).catch((error) => console.error('Error:', error));
     },

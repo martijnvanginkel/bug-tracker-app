@@ -20,7 +20,7 @@ export const ProjectForm = {
     render : () => {
         return `
             <form action="/api/projects/new" method="POST" id="project_form">
-                <h1 id="create_project_title">Create Project</h1>       
+                <h1 id="create_project_name">Create Project</h1>       
                 <label for="name">Name</label>
                 <input type="text" name="name" class="form_field" id="project_name" maxlength="30" required>
                 <label for="description">Description</label>

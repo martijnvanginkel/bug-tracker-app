@@ -14,7 +14,7 @@ export const ProjectCard = {
     render : (project) => {
         const color = randomColor();
         return `
-            <a href="/#/project/show/${project.id}" class="project_card" style="background-color: ${color}">
+            <a href="/#/project/show/${project.project_id}" class="project_card" style="background-color: ${color}">
                 <h2>${project.name}</h2>
                 <p>${project.description}</p>
             </a>

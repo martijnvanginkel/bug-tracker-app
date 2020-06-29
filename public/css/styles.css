@@ -236,7 +236,7 @@ h1 {
     max-width: 640px;
 }
 
-#create_project_title {
+#create_project_name {
     font-size: 1.5em;
     margin-bottom: 10px;
 }
@@ -266,7 +266,10 @@ h1 {
 }
 
 
-
+#invite_message {
+    font-size: 1em;
+    height: 1em;
+}
 
 /* Login */
 

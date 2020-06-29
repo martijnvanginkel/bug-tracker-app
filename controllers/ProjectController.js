@@ -7,6 +7,7 @@ const getProjects = async (req, res) => {
             INNER JOIN users_projects on (projects.id = users_projects.project_id)
             WHERE users_projects.user_id = $1
         `, [req.user_id]);
+        console.log(projects);
         res.json(projects.rows);
     }
     catch (error) {

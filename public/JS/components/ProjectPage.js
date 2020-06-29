@@ -1,8 +1,7 @@
 import { Task } from './Task.js';
-import { removeProjectFromMenu } from './SideBar.js';
-import { returnToHomePage } from './../page_loader.js';
 import { TaskForm } from './TaskForm.js';
 import { InviteForm } from './InviteForm.js';
+import { LeaveButton } from './LeaveButton.js';
 
 const getProjectByID = (id) => {
     if (id === undefined) return;
@@ -63,56 +62,19 @@ const initializeLists = () => {
     });
 }
 
-const leaveProject = async (project_id) => {
-    const project = await fetch(`http://localhost:5000/api/projects/leave/${project_id}?_method=DELETE`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }).then(response => response.json()).then(data => {
-        return data;
-    }).catch((error) => console.error('Error:', error));
-    return project;
-}
-
-const createLeaveButton = (project) => {
-    const leave_button = document.createElement('button');
-    leave_button.type = 'button';
-    leave_button.classList.add('cancel_button');
-    leave_button.innerHTML = 'Leave';
-    leave_button.addEventListener('click', async (e) => {
-        e.preventDefault();
-        if (!confirm('Sure you want to leave?')) return;
-        const response = await leaveProject(project.data.id);
-        if (response !== null && response !== undefined) {
-            removeProjectFromMenu(response.project_id);
-            returnToHomePage();
-        }
-    });
-    return leave_button;
-}
-
-const insertLeaveOption = (project) => {
-    const leave_button = createLeaveButton(project);
-    const project_options = document.querySelector('.project_options');
-    project_options.append(leave_button);
-}
-
-const insertTaskForm = async (id) => {
-    const to_do_container = document.getElementById('to_do_container');
+const appendComponent = async (Component, parent_name, id) => {
+    const parent = document.querySelector(parent_name);
     const element = document.createElement('div');
-    to_do_container.append(element);
-    element.outerHTML = await TaskForm.render();
-    await TaskForm.addEvents(id);
+    parent.append(element);
+    element.outerHTML = await Component.render();
+    await Component.addEvents(id);
 }
 
-const insertInviteForm = async (id) => {
-    const project_options = document.querySelector('.project_options');
-    const element = document.createElement('div');
-    project_options.append(element);
-    element.outerHTML = await InviteForm.render(id);
-    await InviteForm.addEvents(id);
-
+const insertTitleAndDescription = (name, description) => {
+    const name_element = document.querySelector('.project_name');
+    const description_element = document.querySelector('.project_description');
+    name_element.innerHTML = name;
+    description_element.innerHTML = description
 }
 
 export const ProjectPage = {
@@ -120,11 +82,11 @@ export const ProjectPage = {
         return `
             <div class="project_header">
                 <div class="project_info">
-                    <h1 class="project_title"></h1>
+                    <h1 class="project_name"></h1>
                     <p class="project_description"></p>
                 </div>
                 <div class="project_options">
-                 
+                    
                 </div>
             </div>
             <div class="task_container">
@@ -145,30 +107,14 @@ export const ProjectPage = {
     },
     addEvents : async (id) => {
         const project = await getProjectByID(id);
-        // console.log(project)
         if (project.data === undefined || project.data === null) return;
         
-        const title = document.querySelector('.project_title');
-        const description = document.querySelector('.project_description');
-        title.innerHTML = project.data.name;
-
-        // Make title interactive
-
-
-
-        description.innerHTML = project.data.description;
-
-        
-        
         initializeLists();
-        
-        
-        // console.log(`project_data: ${project_data.name}`);
-        
         project.data.tasks.forEach((task) => addTaskToList(task, id));
         
-        insertTaskForm(id);
-        insertInviteForm(id);
-        insertLeaveOption(project);
+        insertTitleAndDescription(project.data.name, project.data.description);
+        appendComponent(InviteForm, '.project_options', id);
+        appendComponent(LeaveButton, '.project_options', id);
+        appendComponent(TaskForm, '#to_do_container', id);
     }
 }
