@@ -38,7 +38,6 @@ export const ProjectForm = {
         const description = document.getElementById('project_description');
         const clear_btn = document.querySelector('.clear_button');
 
-
         const clearFields = () => { 
             name.value = '';
             description.value = '';
@@ -50,12 +49,9 @@ export const ProjectForm = {
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log('create new project');
             const name = e.target.name.value;
             const description = e.target.description.value;
             const project = await createNewProject(name, description);
-
-            console.log(project)
             addProjectsToMenu([project]);
             clearFields();
         });

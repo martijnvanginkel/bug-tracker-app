@@ -6,7 +6,6 @@ export const addProjectsToMenu = (projects) => {
     projects.forEach((project) => {
         const element = document.createElement('li');
         element.classList.add('project_link');
-        // console.log(project);
         element.innerHTML = `
             <a href="/#/project/show/${project.project_id}">${project.name}</a>
         `;
