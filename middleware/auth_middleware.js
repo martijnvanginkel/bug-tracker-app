@@ -6,7 +6,7 @@ const isAuthorized = (req, res, next) => {
         return res.redirect('/login');
     }
     try {
-        const decoded = jwt.verify(token, 'secretkey');
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         req.user_id = decoded.id;;
         next();
     }

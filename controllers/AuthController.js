@@ -33,7 +33,7 @@ const postLogin = async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email
-    }, 'secretkey');
+    }, process.env.SECRET_KEY);
     res.cookie('jwt-token', token)
     return res.redirect('/#/');
 }
