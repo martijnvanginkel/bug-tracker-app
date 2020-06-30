@@ -6,80 +6,21 @@ const usersSeed = () => {
                 name: 'name',
                 type: 'varchar',
                 values: [
-                    'Martijn', 'Hank', 'John'
+                    'Martijn'
                 ]
             },
             {
                 name: 'email',
                 type: 'varchar',
                 values: [
-                    'hoi@hoi.nl', 'martijn@martijn.nl', 'hallo@hallo.com'
+                    'martijn@martijn.nl'
                 ]
             },
             {
                 name: 'password',
                 type: 'varchar',
                 values: [
-                    'poop', 'kak', 'poepies'
-                ]
-            }
-        ]
-    }
-}
-
-
-const projectsSeed = () => {
-    return {
-        table_name: 'projects',
-        columns: [
-            {
-                name: 'name',
-                type: 'varchar',
-                values: [
-                    'Martijn', 'Hank', 'John'
-                ]
-            },
-            {
-                name: 'description',
-                type: 'text',
-                values: [
-                    'Lorem', 'Ipsum', 'Dolor'
-                ]
-            }
-        ]
-    }
-}
-
-const tasksSeed = () => {
-    return {
-        table_name: 'tasks',
-        columns: [
-            {
-                name: 'description',
-                type: 'varchar',
-                values: [
-                    'One', 'Two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', '13'
-                ]
-            },
-            {
-                name: 'priority',
-                type: 'int',
-                values: [
-                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-                ]
-            },
-            {
-                name: 'state',
-                type: 'varchar',
-                values: [
-                    'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO'
-                ]
-            },
-            {
-                name: 'project_id',
-                type: 'int',
-                values: [
-                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 
+                    'password'
                 ]
             }
         ]
@@ -89,6 +30,6 @@ const tasksSeed = () => {
 /* Add function to array to include it in seeder */
 module.exports = { 
     seeds: [
-        usersSeed(), projectsSeed(), tasksSeed()
+        usersSeed()
     ]
 }

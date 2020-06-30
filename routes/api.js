@@ -10,10 +10,10 @@ router.post('/projects/new', auth_middleware.isAuthorized, ProjectController.new
 router.post('/projects/invite/:id', auth_middleware.isAuthorized, ProjectController.inviteUser);
 router.delete('/projects/leave/:id', auth_middleware.isAuthorized, ProjectController.leaveProject);
 
-router.post('/tasks/new', TaskController.newTask);
-router.put('/tasks/move/:id', TaskController.moveTask);
-router.put('/tasks/edit/:id', TaskController.editTask);
-router.delete('/tasks/remove/:id', TaskController.removeTask);
+router.post('/tasks/new', auth_middleware.isAuthorized, TaskController.newTask);
+router.put('/tasks/move/:id', auth_middleware.isAuthorized, TaskController.moveTask);
+router.put('/tasks/edit/:id', auth_middleware.isAuthorized, TaskController.editTask);
+router.delete('/tasks/remove/:id', auth_middleware.isAuthorized, TaskController.removeTask);
 
 
 module.exports = router;
