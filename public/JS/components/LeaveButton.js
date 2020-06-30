@@ -1,5 +1,5 @@
 import { removeProjectFromMenu } from './SideBar.js';
-import { returnToHomePage } from './../page_loader.js';
+import { returnToNewProject } from './../page_loader.js';
 
 const leaveProject = async (project_id) => {
     const project = await fetch(`http://localhost:5000/api/projects/leave/${project_id}?_method=DELETE`, {
@@ -27,7 +27,7 @@ export const LeaveButton = {
             const response = await leaveProject(project_id);
             if (response !== null && response !== undefined) {
                 removeProjectFromMenu(response.project_id);
-                returnToHomePage();
+                returnToNewProject();
             }
         });
     }

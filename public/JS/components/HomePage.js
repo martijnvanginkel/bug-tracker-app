@@ -6,8 +6,12 @@ const addCardsToPage = (projects) => {
         const card_element = document.createElement('div');
         parent.append(card_element)
         card_element.outerHTML = ProjectCard.render(project);
-    })
-    // projects.fo
+    });
+}
+
+const addNoProjectsText = () => {
+    const element = document.getElementById('no_projects_text');
+    element.innerHTML = 'You have no projects at the moment';
 }
 
 export const HomePage = {
@@ -15,9 +19,8 @@ export const HomePage = {
         return `
             <div class="home_page">
                 <h1>Projects</h1>
-                <div class="project_cards">
-
-                </div>
+                <p id="no_projects_text"></p>
+                <div class="project_cards"></div>
             </div>
         `;
     },
@@ -28,7 +31,12 @@ export const HomePage = {
                 'Content-Type': 'application/json',
             }
         }).then(response => response.json()).then(projects => {
-            addCardsToPage(projects);
+            if (projects.length === 0) {
+                addNoProjectsText();
+            }
+            else {
+                addCardsToPage(projects);
+            }
         }).catch((error) => console.error('Error:', error));
     }
 }

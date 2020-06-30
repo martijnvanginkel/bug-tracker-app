@@ -44,3 +44,12 @@ export const stopFormSubmit = (e, message) => {
     flash_box.innerHTML = message;
     setTimeout(() => flash_box.innerHTML = '', 2000);
 }
+
+export const textIsOnlySpaces = (text) => {
+    for (const c in text) {
+        if (text[c] != ' ') {
+            return false;
+        }
+    }
+    return true;
+}

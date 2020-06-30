@@ -85,9 +85,7 @@ export const ProjectPage = {
                     <h1 class="project_name"></h1>
                     <p class="project_description"></p>
                 </div>
-                <div class="project_options">
-                    
-                </div>
+                <div class="project_options"></div>
             </div>
             <div class="task_container">
                 <div class="task_list_container" id="to_do_container">
@@ -108,10 +106,8 @@ export const ProjectPage = {
     addEvents : async (id) => {
         const project = await getProjectByID(id);
         if (project.data === undefined || project.data === null) return;
-        // console.log(project);
         initializeLists();
-        project.data.tasks.forEach((task) => addTaskToList(task, id));
-        
+        project.data.tasks.forEach((task) => addTaskToList(task, id));  
         insertTitleAndDescription(project.data.name, project.data.description);
         appendComponent(InviteForm, '.project_options', id);
         appendComponent(LeaveButton, '.project_options', id);

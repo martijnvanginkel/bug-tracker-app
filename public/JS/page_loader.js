@@ -54,8 +54,8 @@ const hashChanged = () => {
     loadNewPage(route, url);
 }
 
-export const returnToHomePage = () => {
-    location.hash = '/';
+export const returnToNewProject = () => {
+    location.hash = '/project/new';
     hashChanged();
 }
 

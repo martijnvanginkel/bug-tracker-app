@@ -35,7 +35,7 @@ const postLogin = async (req, res) => {
         email: user.email
     }, 'secretkey');
     res.cookie('jwt-token', token)
-    return res.redirect('/');
+    return res.redirect('/#/');
 }
 
 const postRegister = async (req, res) => {

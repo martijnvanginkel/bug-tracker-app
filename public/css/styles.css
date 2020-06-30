@@ -14,6 +14,7 @@ body {
     font-weight: 400;
     padding: 0;
     margin: 0;
+    background-color: #FFFDFD;
 }
 
 #main_content {
@@ -27,7 +28,8 @@ body {
     padding: 10px;
     margin-left: 10px;
     max-width: 640px;
-    background-color: lightyellow;
+    
+    /* background-color: lightyellow; */
 }
 
 nav {
@@ -39,7 +41,7 @@ aside {
     display: flex;
     flex-direction: column;
     margin: 0;
-    padding: 5px;
+    padding: 10px 5px 5px 10px;
 }
 
 h1 {
@@ -63,8 +65,10 @@ h1 {
     color: black;
     text-decoration: none;
     width: 100%;
-    padding: 5px 0 5px 5px;
+    padding: 8px 0 8px 5px;
+    border-radius: 3px;
     margin: 0;
+    font-weight: 200;
     transition: 0.1s ease;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -84,12 +88,14 @@ h1 {
 }
 
 .project_link {
-    padding: 3px 0 3px 0;
+    padding: 7px 5px 7px 0;
     margin: 0;
     transition: 0.1s ease;
+    font-weight: 200;
 }
 
 .project_link:hover {
+    border-radius: 3px;
     background-color: #f2f2f2;
     cursor: pointer;
     transition: 0.1s ease;
@@ -110,11 +116,13 @@ h1 {
     font-size: 1em;
     outline: none;
     margin-top: 5px;
+    transition: 0.2s ease;
 }
 
 #logout_button:hover {
     cursor: pointer;
-    color: black;
+    color: #e94949;
+    transition: 0.2s ease;
 }
 
 /* END SIDEBAR */
@@ -122,7 +130,11 @@ h1 {
 /* HOMEPAGE */
 
 .home_page h1 {
-    padding: 10px;
+    margin: 10px 0 10px 10px
+}
+
+.home_page p {
+    margin-left: 10px;
 }
 
 .project_cards {
@@ -138,7 +150,7 @@ h1 {
     flex: 1 0 45%;
     margin: 10px;
     border: 0px;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
     padding: 5px 0;
     opacity: 80%;
@@ -148,6 +160,12 @@ h1 {
 .project_card:hover {
     opacity: 100%;
     transition: 0.1s ease;
+}
+
+.project_card p {
+    text-align: center;
+    padding: 0 0 10px 0;
+    margin: 0;
 }
 
 .card_background {
@@ -161,19 +179,17 @@ h1 {
 .project_header {
     display: flex;
     flex-direction: row;
-    /* background-color: green; */
-    /* max-width: 640px; */
     padding-bottom: 10px;
     border-bottom: 1px solid black;
 }
 
 .project_info {
     flex-grow: 1;
-    /* background-color: lightcoral; */
 }
 
-.project_info h1 {
+.project_name {
     font-size: 1.5em;
+    font-weight: 200;
 }
 
 .project_options {
@@ -189,8 +205,6 @@ h1 {
     max-height: 100%;
     height: 100%;
     overflow: auto;
-    /* overflow-y: scroll; */
-    /* justify-content: space-evenly; */
 }
 
 .to_do_list {
@@ -201,32 +215,21 @@ h1 {
 .task_list_container {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    overflow-wrap: break-word;
     margin: 0;
     padding: 10px;
     flex-basis: 100%;
-    background-color: lightgrey;
+    background-color: #ededed;
     margin-top: 10px;
     margin-right: 15px;
     border-radius: 5px;
-    overflow: hidden;
-    overflow-wrap: break-word;
-    /* max-width: 100%; */
-    
-    /* overflow-wrap: break-word; */
-    /* max-width: 100%; */
-    /* max-width: 150px; */
-    /* overflow: none; */
-    /* overflow: auto; */
-
-    /* overflow-y: scroll; */
-    /* overflow-y: scroll; */
 }
 
 .task_list {
-    background-color: lightgray;
     min-width: 150px;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     flex-grow: 1;
     max-height: 100%;
@@ -235,6 +238,7 @@ h1 {
 
 .task_list_title {
     font-size: 1em;
+    font-weight: 200;
     margin: 0;
     padding: 0;
 }
@@ -242,12 +246,20 @@ h1 {
 .task_box {
     position: relative;
     display: flex;
+    flex-direction: column;
     background-color: white;
     transition: 0.1s ease;
-    border-radius: 4px;
+    border-radius: 3px;
     width: 100%;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    border-bottom: 1px solid #cccccc;
+    /* padding: 2px 4px; */
+    /* overflow:hidden; */
+    box-sizing: content-box;
+    box-sizing: border-box;
+    /* opacity: 100%; */
+    /* z-index: 300; */
 }
 
 .task_box:hover {
@@ -260,30 +272,32 @@ h1 {
 
 
 .task_description {
-    background-color: royalblue;
     width: 100%;
     height: 100%;
-    padding: 0;
     margin: 0;
+    box-sizing: content-box;
+    box-sizing: border-box;  
+    padding: 2px 3px;
 }
 
 .task_input {
-    resize: none;
+    resize: vertical;
+    overflow:hidden;
+    font-size: 1.2em;
+    border: 0;
+    /* overflow-y: auto; */
+    width: 100%;
+    /* max-width: 100%; */
+    box-sizing: content-box;
+    box-sizing: border-box;  
+    /* height: 100%; */
+    /* white-space: nowrap; */
 }
-
-/* .task_buttons {
-    display: flex;
-    flex-direction: row;
-    position: absolute; 
-    right: 0;
-    top: 0;
-    display: none;
-} */
 
 .edit_task {
     display: flex;
     position: relative;
-    background-color: saddlebrown;
+    /* background-color: saddlebrown; */
     width: 100%;
     word-wrap: break-word;
     /* position: absolute; 
@@ -300,23 +314,48 @@ h1 {
     top: 0;
     cursor: pointer;
     display: none;
+    padding: 0;
+    border: none;
+    /* background-color: gray; */
+    /* background-color: black; */
+    margin: 3px 3px 0 0;
+    border-radius: 5px;
+    font-size: 0.7em;
     /* display: none; */
 }
 
+.edit_btn i {
+    /* background-color: red; */
+    pointer-events: none;
+    background-color: white;
+    font-size: 1.5em;
+    border: 0;
+}
+/* -webkit-user-select: none;      
+-moz-user-select: none;
+-ms-user-select: none; 
+user-select: none;
+pointer-events: none; */
+
 .save_btn {
-    position: absolute;
-    bottom: -50%;
+    background-color: #23d160;
+    color: white;
+    max-width: 100%;
     width: 100%;
-    /* position: absolute;
-    top: 0;
-    right: 0; */
+    padding: 3px 0;
+    margin: 0;
+    border: 0;
+    border-radius: 0 0 3px 3px;
+}
+
+.save_btn:hover {
+    background-color: #21c45a;
+    cursor: pointer;
 }
 
 
 .remove_task {
     background-color: silver;
-    /* position: absolute;
-    right: 0; */
 }
 
 #project_form {
@@ -325,9 +364,23 @@ h1 {
     max-width: 640px;
 }
 
-#create_project {
+#project_form label {
+    margin-top: 10px;
+}
+
+#project_form h1 {
     font-size: 1.5em;
-    margin-bottom: 10px;
+    margin: 10px 0 15px 0;
+    font-weight: 200;
+}
+
+#create_project {
+    /* font-size: 1.5em; */
+    /* margin-bottom: 20px; */
+}
+
+#project_buttons {
+    margin-top: 5px;
 }
 
 /* .delete_project_btn {
@@ -398,6 +451,11 @@ h1 {
     /* margin: 10px 0; */
 }
 
+.big_field {
+    padding: 10px;
+    font-size: 1em;
+}
+
 .submit_button {
     background-color: #00d1b2;
     color: white;
@@ -413,18 +471,26 @@ h1 {
     cursor: pointer;
 }
 
+.big_button {
+    padding: 10px;
+    font-size: 1em;
+}
+
 .cancel_button {
-    background-color: lightcoral;
+    background-color: #ef7777;
     color: white;
     padding: 5px;
     border: 0px;
     border-radius: 5px;
     margin-top: 5px;
     font-size: 0.8em;
+    transition: 0.1s ease;
 }
 
 .cancel_button:hover {
-
+    background-color: #e94949;
+    cursor: pointer;
+    transition: 0.1s ease;
 }
 
 .auth_flash {
@@ -436,8 +502,8 @@ h1 {
     color: #0059b3;
     border: 0px;
     border-radius: 5px;
-    font-size: 0.8em;
-    padding: 5px;
+    font-size: 1em;
+    padding: 10px;
 }
 
 .clear_button:hover {

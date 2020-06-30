@@ -20,13 +20,13 @@ export const ProjectForm = {
     render : () => {
         return `
             <form action="/api/projects/new" method="POST" id="project_form">
-                <h1 id="create_project_name">Create Project</h1>       
+                <h1>Create Project</h1>       
                 <label for="name">Name</label>
-                <input type="text" name="name" class="form_field" id="project_name" maxlength="30" required>
+                <input type="text" name="name" class="form_field big_field" id="project_name" maxlength="30" required>
                 <label for="description">Description</label>
-                <input type="text" name="description" class="form_field" id="project_description">
+                <input type="text" name="description" class="form_field big_field" id="project_description">
                 <div id="project_buttons">
-                    <button type="submit" class="submit_button">Submit</button>
+                    <button type="submit" class="submit_button big_button">Submit</button>
                     <button type="button" class="clear_button">Clear</button>
                 </div>
             </form>
